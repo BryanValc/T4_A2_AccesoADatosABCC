@@ -33,6 +33,10 @@ class Interfaz extends JFrame implements ActionListener{
 		
 	}
 	
+	public void metodoMagico(Component c,int x, int y,int width, int height) {
+		add(c);
+		c.setBounds(x, y, width, height);
+	}
 	 
 }
 
@@ -48,9 +52,12 @@ public class VentanaInicio {
 		
 		System.out.println(aDAO.insertarRegistro(a)?"EXITO":"Me cambio de carrera");*/
 		
-		
-		
-		
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new Interfaz();
+			}
+		});
 		
 	}
 
