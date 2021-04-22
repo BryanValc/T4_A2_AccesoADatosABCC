@@ -25,6 +25,33 @@ class Interfaz extends JFrame implements ActionListener{
 		setTitle("Formulario");
 		setVisible(true);
 		
+		metodoMagico(new JLabel("Número de control"), 20, 20, 130, 20);
+		metodoMagico(new JLabel("Nombre"), 20, 40, 130, 20);
+		metodoMagico(new JLabel("Primer apellido"), 20, 60, 130, 20);
+		metodoMagico(new JLabel("Segundo apellido"), 20, 80, 130, 20);
+		metodoMagico(new JLabel("Edad"), 20, 100, 130, 20);
+		metodoMagico(new JLabel("Semestre"), 20, 120, 130, 20);
+		metodoMagico(new JLabel("Carrera"), 20, 140, 130, 20);
+		
+		numControl = new JTextField();
+		nombre = new JTextField();
+		primerAp = new JTextField();
+		segundoAp = new JTextField();
+		edad = new JTextField();
+		semestre = new JTextField();
+		carrera = new JTextField();
+		
+		metodoMagico(numControl, 130, 20, 100, 20);
+		metodoMagico(nombre, 130, 40, 100, 20);
+		metodoMagico(primerAp, 130, 60, 100, 20);
+		metodoMagico(segundoAp, 130, 80, 100, 20);
+		metodoMagico(edad, 130, 100, 50, 20);
+		metodoMagico(semestre, 130, 120, 50, 20);
+		metodoMagico(carrera, 130, 140, 100, 20);
+		
+		
+		
+		
 	}
 	
 	@Override
