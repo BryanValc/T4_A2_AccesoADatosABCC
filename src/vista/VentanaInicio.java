@@ -49,7 +49,33 @@ class Interfaz extends JFrame implements ActionListener{
 		metodoMagico(semestre, 130, 120, 50, 20);
 		metodoMagico(carrera, 130, 140, 100, 20);
 		
+		enviar = new JButton("Enviar");
+		enviar.addActionListener(this);
+		metodoMagico(enviar, 130, 160, 100, 20);
 		
+		edad.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				String value = edad.getText();
+				int code=ke.getKeyCode();
+				if ((ke.getKeyChar()>='0' && ke.getKeyChar()<='9')|| (code==KeyEvent.VK_BACK_SPACE)) {
+					edad.setEditable(true);
+				}else{
+					edad.setEditable(false);
+				}
+			}
+		});
+		
+		semestre.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				String value = semestre.getText();
+				int code=ke.getKeyCode();
+				if ((ke.getKeyChar()>='0' && ke.getKeyChar()<='9')|| (code==KeyEvent.VK_BACK_SPACE)) {
+					semestre.setEditable(true);
+				}else{
+					semestre.setEditable(false);
+				}
+			}
+		});
 		
 		
 	}
