@@ -77,12 +77,17 @@ class Interfaz extends JFrame implements ActionListener{
 			}
 		});
 		
-		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+		if (arg0.getSource()==enviar) {
+			Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
+					(byte)(Integer.parseInt(edad.getText())), (byte)(Integer.parseInt(semestre.getText())), carrera.getText());
+			
+			AlumnoDAO aDAO = new AlumnoDAO();
+			System.out.println(aDAO.insertarRegistro(a)?"EXITO":"Me cambio de carrera");
+		}
 		
 	}
 	
@@ -96,14 +101,6 @@ class Interfaz extends JFrame implements ActionListener{
 public class VentanaInicio {
 	
 	public static void main(String[] args) {
-		
-		//Suponiendo que los datos vienen desde la interfaz grafica
-		
-		/*Alumno a = new Alumno("01", "Luke", "Skywalker", "-", (byte)50, (byte)10, "ISC");
-		
-		AlumnoDAO aDAO = new AlumnoDAO();
-		
-		System.out.println(aDAO.insertarRegistro(a)?"EXITO":"Me cambio de carrera");*/
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
