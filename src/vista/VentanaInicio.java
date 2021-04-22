@@ -12,7 +12,29 @@ import javax.swing.*;
 import controlador.AlumnoDAO;
 import modelo.Alumno;
 
-
+class Interfaz extends JFrame implements ActionListener{
+	
+	JButton enviar;
+	JTextField numControl, nombre, primerAp, segundoAp, edad, semestre, carrera;
+	
+	public Interfaz() {
+		getContentPane().setLayout(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(280,240);
+		setLocationRelativeTo(null);
+		setTitle("Formulario");
+		setVisible(true);
+		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	 
+}
 
 public class VentanaInicio {
 	
