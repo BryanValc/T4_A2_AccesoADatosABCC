@@ -14,7 +14,7 @@ public class ConexionBD {
 			
 			String URL = "jdbc:mysql://localhost:3306/Escuela_Topicos";
 			
-			conexion = DriverManager.getConnection(URL,"root","=====================");
+			conexion = DriverManager.getConnection(URL,"root","c1s1g7o");
 			
 			System.out.println("Conexion establecida");
 			
