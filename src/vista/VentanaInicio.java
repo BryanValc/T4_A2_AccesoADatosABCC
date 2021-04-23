@@ -21,7 +21,7 @@ class Interfaz extends JFrame implements ActionListener{
 	JInternalFrame recordAltas;
 	
 	JComboBox<String> comboEdad, comboCarrera, comboSemestre;
-	JButton agregar;
+	JButton agregar, borrar, cancelar;
 	JTextField numControl, nombre, primerAp, segundoAp;
 	
 	public Interfaz() {
@@ -69,8 +69,8 @@ class Interfaz extends JFrame implements ActionListener{
 		metodoMagico(new JLabel("APELLIDO PATERNO: "), panelAltas, 90, 133, 130, 20);
 		metodoMagico(new JLabel("APELLIDO MATERNO: "), panelAltas, 90, 156, 130, 20);
 		metodoMagico(new JLabel("EDAD: "), panelAltas, 90, 179, 130, 20);
-		metodoMagico(new JLabel("SEMESTRE: "), panelAltas, 90, 202, 130, 20);
-		metodoMagico(new JLabel("CARRERA: "), panelAltas, 90, 225, 130, 20);
+		metodoMagico(new JLabel("SEMESTRE: "), panelAltas, 90, 209, 130, 20);
+		metodoMagico(new JLabel("CARRERA: "), panelAltas, 90, 227, 130, 20);
 		
 		numControl = new JTextField();
 		nombre = new JTextField();
@@ -80,17 +80,38 @@ class Interfaz extends JFrame implements ActionListener{
 		comboSemestre = new JComboBox<String>();
 		comboCarrera = new JComboBox<String>();
 		
-		metodoMagico(numControl, panelAltas, 206, 82, 134, 17);
-		metodoMagico(nombre, panelAltas, 130, 40, 100, 17);
-		metodoMagico(primerAp, panelAltas, 130, 60, 100, 17);
-		metodoMagico(segundoAp, panelAltas, 130, 80, 100, 17);
-		metodoMagico(comboEdad, panelAltas, 130, 100, 50, 17);
-		metodoMagico(comboSemestre, panelAltas, 130, 120, 50, 20);
-		metodoMagico(comboCarrera, panelAltas, 130, 140, 100, 20);
+		for (int i = 1; i <= 122; i++) {
+			comboEdad.addItem(""+i);
+		}
+		for (int i = 1; i <= 10; i++) {
+			comboSemestre.addItem(""+i);
+		}
+		comboCarrera.addItem("ISC");
+		comboCarrera.addItem("IM");
+		comboCarrera.addItem("ADMON");
+		comboCarrera.addItem("IIA");
+		comboCarrera.addItem("LEC");
+		
+		metodoMagico(numControl, panelAltas, 226, 90, 134, 17);
+		metodoMagico(nombre, panelAltas, 172, 113, 187, 17);
+		metodoMagico(primerAp, panelAltas, 216, 136, 144, 17);
+		metodoMagico(segundoAp, panelAltas, 216, 159, 144, 17);
+		metodoMagico(comboEdad, panelAltas, 216, 187, 40, 16);
+		metodoMagico(comboSemestre, panelAltas, 216, 215, 144, 16);
+		metodoMagico(comboCarrera, panelAltas, 216, 231, 144, 16);
 		
 		agregar = new JButton("AGREGAR");
 		agregar.addActionListener(this);
-		metodoMagico(agregar, panelAltas, 130, 160, 100, 20);
+		metodoMagico(agregar, panelAltas, 380, 96, 90, 18);
+		
+		borrar = new JButton("BORRAR");
+		borrar.addActionListener(this);
+		metodoMagico(borrar, panelAltas, 380, 155, 90, 18);
+		
+		cancelar = new JButton("CANCELAR");
+		cancelar.addActionListener(this);
+		metodoMagico(cancelar, panelAltas, 375, 203, 100, 18);
+		
 		
 		recordAltas.add(panelAltas);
 		dp.add(recordAltas);
@@ -103,10 +124,13 @@ class Interfaz extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource()==agregar) {
 			Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
-					(byte)(Integer.parseInt(edad.getText())), (byte)(Integer.parseInt(semestre.getText())), carrera.getText());
+					(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), comboCarrera.getSelectedItem().toString());
 			
 			AlumnoDAO aDAO = new AlumnoDAO();
 			System.out.println(aDAO.insertarRegistro(a)?"EXITO":"Me cambio de carrera");
+		}
+		if (rootPaneCheckingEnabled) {
+			
 		}
 		
 	}
@@ -114,6 +138,21 @@ class Interfaz extends JFrame implements ActionListener{
 	public void metodoMagico(Component c, JPanel p, int x, int y,int width, int height) {
 		p.add(c);
 		c.setBounds(x, y, width, height);
+	}
+	
+	public void metodoQueRestableceTODO(Component...componentesGraficos) {
+		
+		for (Component c: componentesGraficos) {
+			if (c instanceof JComboBox) {
+				((JComboBox<?>)c).setSelectedIndex(0);
+			}else if (c instanceof JTextField) {
+				((JTextField)c).setText("");
+			}
+		}
+		
+			
+		
+		
 	}
 	 
 }
