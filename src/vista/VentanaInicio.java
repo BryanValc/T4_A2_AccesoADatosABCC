@@ -2,12 +2,15 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.security.AllPermission;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.*;
 
 import controlador.AlumnoDAO;
@@ -59,20 +62,30 @@ class Interfaz extends JFrame implements ActionListener{
 		recordAltas.setSize(567,425);
 		recordAltas.setTitle("Altas Alumnos");
 		
+		JPanel panelAltasTitulo = new JPanel();//Panel titulo
+		panelAltasTitulo.setLayout(null);
+		panelAltasTitulo.setBackground(Color.GREEN);
+		panelAltasTitulo.setBounds(0, 0, 567, 50);
+		
+		JLabel tituloAltas = new JLabel("ALTAS ALUMNOS");
+		tituloAltas.setFont(new Font("Calibri", Font.BOLD, 20));
+		tituloAltas.setForeground(Color.WHITE);
+		metodoMagico(tituloAltas, panelAltasTitulo, 30, 20, 220, 20);
+		
 		JPanel panelAltas = new JPanel();//Panel Altas
 		panelAltas.setLayout(null);
 		panelAltas.setBackground(Color.WHITE);
-		panelAltas.setBounds(1, 1, 567, 425);
+		panelAltas.setBounds(0, 50, 567, 425);
 		
-		metodoMagico(new JLabel("NUMERO DE CONTROL:"), panelAltas, 90, 87, 130, 20);
-		metodoMagico(new JLabel("NOMBRES:"), panelAltas, 90, 110, 130, 20);
-		metodoMagico(new JLabel("APELLIDO PATERNO: "), panelAltas, 90, 133, 130, 20);
-		metodoMagico(new JLabel("APELLIDO MATERNO: "), panelAltas, 90, 156, 130, 20);
-		metodoMagico(new JLabel("EDAD: "), panelAltas, 90, 179, 130, 20);
-		metodoMagico(new JLabel("SEMESTRE: "), panelAltas, 90, 209, 130, 20);
-		metodoMagico(new JLabel("CARRERA: "), panelAltas, 90, 227, 130, 20);
+		metodoMagico(new JLabel("NUMERO DE CONTROL:"), panelAltas, 90, 37, 130, 20);//Labels
+		metodoMagico(new JLabel("NOMBRES:"), panelAltas, 90, 60, 130, 20);
+		metodoMagico(new JLabel("APELLIDO PATERNO: "), panelAltas, 90, 83, 130, 20);
+		metodoMagico(new JLabel("APELLIDO MATERNO: "), panelAltas, 90, 106, 130, 20);
+		metodoMagico(new JLabel("EDAD: "), panelAltas, 90, 129, 130, 20);
+		metodoMagico(new JLabel("SEMESTRE: "), panelAltas, 90, 159, 130, 20);
+		metodoMagico(new JLabel("CARRERA: "), panelAltas, 90, 177, 130, 20);
 		
-		numControl = new JTextField();
+		numControl = new JTextField();//Reasignacion
 		nombre = new JTextField();
 		primerAp = new JTextField();
 		segundoAp = new JTextField();
@@ -92,29 +105,41 @@ class Interfaz extends JFrame implements ActionListener{
 		comboCarrera.addItem("IIA");
 		comboCarrera.addItem("LEC");
 		
-		metodoMagico(numControl, panelAltas, 226, 90, 134, 17);
-		metodoMagico(nombre, panelAltas, 172, 113, 187, 17);
-		metodoMagico(primerAp, panelAltas, 216, 136, 144, 17);
-		metodoMagico(segundoAp, panelAltas, 216, 159, 144, 17);
-		metodoMagico(comboEdad, panelAltas, 216, 187, 40, 16);
-		metodoMagico(comboSemestre, panelAltas, 216, 215, 144, 16);
-		metodoMagico(comboCarrera, panelAltas, 216, 231, 144, 16);
+		metodoMagico(numControl, panelAltas, 226, 40, 134, 17);//Posicionamiento
+		metodoMagico(nombre, panelAltas, 172, 63, 187, 17);
+		metodoMagico(primerAp, panelAltas, 216, 86, 144, 17);
+		metodoMagico(segundoAp, panelAltas, 216, 109, 144, 17);
+		metodoMagico(comboEdad, panelAltas, 216, 137, 40, 16);
+		metodoMagico(comboSemestre, panelAltas, 216, 165, 144, 16);
+		metodoMagico(comboCarrera, panelAltas, 216, 181, 144, 16);
 		
 		agregar = new JButton("AGREGAR");
 		agregar.addActionListener(this);
-		metodoMagico(agregar, panelAltas, 380, 96, 90, 18);
+		metodoMagico(agregar, panelAltas, 380, 46, 90, 18);
 		
 		borrar = new JButton("BORRAR");
 		borrar.addActionListener(this);
-		metodoMagico(borrar, panelAltas, 380, 155, 90, 18);
+		metodoMagico(borrar, panelAltas, 380, 105, 90, 18);
 		
 		cancelar = new JButton("CANCELAR");
 		cancelar.addActionListener(this);
-		metodoMagico(cancelar, panelAltas, 375, 203, 100, 18);
+		metodoMagico(cancelar, panelAltas, 375, 153, 100, 18);
 		
+		String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};//Tabla
+		String values [][] = new String[5][7];
 		
+		DefaultTableModel mod = new DefaultTableModel();
+		mod=new DefaultTableModel(values,atribs);
+		JTable table=new JTable();
+		table=new JTable(mod);
+		JTableHeader header = table.getTableHeader();
+		metodoMagico(header,panelAltas,20,281,525,20);
+		metodoMagico(table,panelAltas,20,301,525,75);
+		recordAltas.add(header);
+		recordAltas.add(table);
 		
 		recordAltas.add(panelAltas);
+		recordAltas.add(panelAltasTitulo);
 		dp.add(recordAltas);
 		dp.setBounds(0, 0, 567, 425);
 		add(dp);
