@@ -113,6 +113,7 @@ class Interfaz extends JFrame implements ActionListener{
 		metodoMagico(cancelar, panelAltas, 375, 203, 100, 18);
 		
 		
+		
 		recordAltas.add(panelAltas);
 		dp.add(recordAltas);
 		dp.setBounds(0, 0, 567, 425);
@@ -129,8 +130,11 @@ class Interfaz extends JFrame implements ActionListener{
 			AlumnoDAO aDAO = new AlumnoDAO();
 			System.out.println(aDAO.insertarRegistro(a)?"EXITO":"Me cambio de carrera");
 		}
-		if (rootPaneCheckingEnabled) {
-			
+		if (arg0.getSource()==borrar) {
+			metodoQueRestableceTODO(numControl,nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);
+		}
+		if (arg0.getSource()==cancelar) {
+			recordAltas.setVisible(false);
 		}
 		
 	}
