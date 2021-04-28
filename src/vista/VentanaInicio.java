@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.security.AllPermission;
@@ -23,11 +25,12 @@ class Interfaz extends JFrame implements ActionListener{
 	JMenu altas, bajas, cambios, consultas;
 	JMenuItem menuItemAltas, menuItemBajas, menuItemCambios, menuItemConsultas;
 	JInternalFrame recordAltas, recordBajas, recordCambios, recordConsultas;
-	JLabel lblNumeroDeControl,lblNombres,lblApellidoPaterno,lblApellidoMaterno,lblEdad,lblSemestre,lblCarrera;
 	
+	JLabel lblNumeroDeControl,lblNombres,lblApellidoPaterno,lblApellidoMaterno,lblEdad,lblSemestre,lblCarrera;
 	JComboBox<String> comboEdad, comboCarrera, comboSemestre;
 	JButton interaccion, borrar, cancelar;
 	JTextField numControl, nombre, primerAp, segundoAp;
+	JCheckBox cbTodos,cbNumeroDeControl,cbNombres,cbApellidoPaterno,cbApellidoMaterno,cbEdad,cbSemestre,cbCarrera;
 	
 	public Interfaz() {
 		getContentPane().setLayout(null);
@@ -65,10 +68,136 @@ class Interfaz extends JFrame implements ActionListener{
 		lblSemestre=new JLabel("SEMESTRE:");
 		lblCarrera=new JLabel("CARRERA:");
 		
+		cbTodos=new JCheckBox();
+		cbTodos.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbTodos.isSelected()) {
+					numControl.setEditable(true);
+					nombre.setEditable(true);
+					primerAp.setEditable(true);
+					segundoAp.setEditable(true);
+					comboEdad.setEnabled(true);
+					comboSemestre.setEnabled(true);
+					comboCarrera.setEnabled(true);
+					
+					cbNumeroDeControl.setSelected(false);
+					cbNombres.setSelected(false);
+					cbApellidoPaterno.setSelected(false);
+					cbApellidoMaterno.setSelected(false);
+					cbEdad.setSelected(false);
+					cbSemestre.setSelected(false);
+					cbCarrera.setSelected(false);
+					
+					cbNumeroDeControl.setEnabled(false);
+					cbNombres.setEnabled(false);
+					cbApellidoPaterno.setEnabled(false);
+					cbApellidoMaterno.setEnabled(false);
+					cbEdad.setEnabled(false);
+					cbSemestre.setEnabled(false);
+					cbCarrera.setEnabled(false);
+	            }else {
+	            	numControl.setEditable(false);
+					nombre.setEditable(false);
+					primerAp.setEditable(false);
+					segundoAp.setEditable(false);
+					comboEdad.setEnabled(false);
+					comboSemestre.setEnabled(false);
+					comboCarrera.setEnabled(false);
+					
+					cbNumeroDeControl.setEnabled(true);
+					cbNombres.setEnabled(true);
+					cbApellidoPaterno.setEnabled(true);
+					cbApellidoMaterno.setEnabled(true);
+					cbEdad.setEnabled(true);
+					cbSemestre.setEnabled(true);
+					cbCarrera.setEnabled(true);
+	            }
+			}
+	    });
+		cbNumeroDeControl=new JCheckBox();
+		cbNumeroDeControl.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbNumeroDeControl.isSelected()) {
+					numControl.setEditable(true);
+	            }else {
+	            	numControl.setEditable(false);
+	            }
+			}
+	    });
+		cbNombres=new JCheckBox();
+		cbNombres.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbNombres.isSelected()) {
+					nombre.setEditable(true);
+	            }else {
+	            	nombre.setEditable(false);
+	            }
+			}
+	    });
+		cbApellidoPaterno=new JCheckBox();
+		cbApellidoPaterno.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbApellidoPaterno.isSelected()) {
+					primerAp.setEditable(true);
+	            }else {
+	            	primerAp.setEditable(false);
+	            }
+			}
+	    });
+		cbApellidoMaterno=new JCheckBox();
+		cbApellidoMaterno.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbApellidoMaterno.isSelected()) {
+					segundoAp.setEditable(true);
+	            }else {
+	            	segundoAp.setEditable(false);
+	            }
+			}
+	    });
+		cbEdad=new JCheckBox();
+		cbEdad.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbEdad.isSelected()) {
+					comboEdad.setEnabled(true);
+	            }else {
+	            	comboEdad.setEnabled(false);
+	            }
+			}
+	    });
+		cbSemestre=new JCheckBox();
+		cbSemestre.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbNombres.isSelected()) {
+					comboSemestre.setEnabled(true);
+	            }else {
+	            	comboSemestre.setEnabled(false);
+	            }
+			}
+	    });
+		cbCarrera=new JCheckBox();
+		cbCarrera.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbCarrera.isSelected()) {
+					comboCarrera.setEnabled(true);
+	            }else {
+	            	comboCarrera.setEnabled(false);
+	            }
+			}
+	    });
+		
+		
 		JDesktopPane dp = new JDesktopPane();
 		
 		
-		recordAltas = new JInternalFrame();//Frame Altas
+		recordAltas = new JInternalFrame();//Frame Altas====================================================================
 		recordAltas.getContentPane().setLayout(null);
 		recordAltas.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		recordAltas.setSize(567,425);
@@ -90,7 +219,7 @@ class Interfaz extends JFrame implements ActionListener{
 		panelAltas.setBounds(0, 50, 567, 425);
 		
 		
-		recordBajas = new JInternalFrame();//Frame Bajas
+		recordBajas = new JInternalFrame();//Frame Bajas========================================================================
 		recordBajas.getContentPane().setLayout(null);
 		recordBajas.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		recordBajas.setSize(567,425);
@@ -112,7 +241,7 @@ class Interfaz extends JFrame implements ActionListener{
 		panelBajas.setBounds(0, 50, 567, 425);
 		
 		
-		recordCambios = new JInternalFrame();//Frame Cambios
+		recordCambios = new JInternalFrame();//Frame Cambios======================================================================
 		recordCambios.getContentPane().setLayout(null);
 		recordCambios.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		recordCambios.setSize(567,425);
@@ -134,7 +263,7 @@ class Interfaz extends JFrame implements ActionListener{
 		panelCambios.setBounds(0, 50, 567, 425);
 		
 		
-		recordConsultas = new JInternalFrame();//Frame Consultas
+		recordConsultas = new JInternalFrame();//Frame Consultas==================================================================
 		recordConsultas.getContentPane().setLayout(null);
 		recordConsultas.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		recordConsultas.setSize(567,425);
@@ -309,6 +438,24 @@ class Interfaz extends JFrame implements ActionListener{
 					comboSemestre.setEnabled(false);
 					comboCarrera.setEnabled(false);
 					
+					cbTodos.setSelected(false);
+					cbNumeroDeControl.setSelected(false);
+					cbNombres.setSelected(false);
+					cbApellidoPaterno.setSelected(false);
+					cbApellidoMaterno.setSelected(false);
+					cbEdad.setSelected(false);
+					cbSemestre.setSelected(false);
+					cbCarrera.setSelected(false);
+					
+					metodoMagico(cbTodos, 70, 17, 20, 20, panelConsultas);
+					metodoMagico(cbNumeroDeControl, 70, 37, 20, 20, panelConsultas);//Checkboxes
+					metodoMagico(cbNombres, 70, 60, 20, 20, panelConsultas);
+					metodoMagico(cbApellidoPaterno, 70, 83, 20, 20, panelConsultas);
+					metodoMagico(cbApellidoMaterno, 70, 106, 20, 20, panelConsultas);
+					metodoMagico(cbEdad, 70, 129, 20, 20, panelConsultas);
+					metodoMagico(cbSemestre, 70, 159, 20, 20, panelConsultas);
+					metodoMagico(cbCarrera, 70, 177, 20, 20, panelConsultas);
+					
 					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelConsultas);//Labels
 					metodoMagico(lblNombres, 90, 60, 130, 20, panelConsultas);
 					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelConsultas);
@@ -336,25 +483,6 @@ class Interfaz extends JFrame implements ActionListener{
 		menuBar.add(cambios);
 		menuBar.add(consultas);
 		setJMenuBar(menuBar);
-		
-		
-		
-		
-		/*metodoMagico(new JLabel("NUMERO DE CONTROL:"), 90, 37, 130, 20, panelAltas);//Labels
-		metodoMagico(new JLabel("NOMBRES:"), 90, 60, 130, 20, panelAltas);
-		metodoMagico(new JLabel("APELLIDO PATERNO: "), 90, 83, 130, 20, panelAltas);
-		metodoMagico(new JLabel("APELLIDO MATERNO: "), 90, 106, 130, 20, panelAltas);
-		metodoMagico(new JLabel("EDAD: "), 90, 129, 130, 20, panelAltas);
-		metodoMagico(new JLabel("SEMESTRE: "), 90, 159, 130, 20, panelAltas);
-		metodoMagico(new JLabel("CARRERA: "), 90, 177, 130, 20, panelAltas);*/
-		
-		/*metodoMagico(numControl, 226, 40, 134, 17, panelAltas);//Posicionamiento
-		metodoMagico(nombre, 172, 63, 187, 17, panelAltas);
-		metodoMagico(primerAp, 216, 86, 144, 17, panelAltas);
-		metodoMagico(segundoAp, 216, 109, 144, 17, panelAltas);
-		metodoMagico(comboEdad, 216, 137, 40, 16, panelAltas);
-		metodoMagico(comboSemestre, 216, 165, 144, 16, panelAltas);
-		metodoMagico(comboCarrera, 216, 181, 144, 16, panelAltas);*/
 		
 		String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};//Tabla
 		String values [][] = new String[5][7];
