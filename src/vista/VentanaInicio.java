@@ -28,10 +28,9 @@ class Interfaz extends JFrame implements ActionListener{
 	
 	JLabel lblNumeroDeControl,lblNombres,lblApellidoPaterno,lblApellidoMaterno,lblEdad,lblSemestre,lblCarrera;
 	JComboBox<String> comboEdad, comboCarrera, comboSemestre;
-	JButton interaccion, borrar, cancelar;
+	JButton interaccion, borrar, cancelar, busqueda;
 	JTextField numControl, nombre, primerAp, segundoAp;
 	JCheckBox cbTodos,cbNumeroDeControl,cbNombres,cbApellidoPaterno,cbApellidoMaterno,cbEdad,cbSemestre,cbCarrera;
-	
 	public Interfaz() {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -40,7 +39,7 @@ class Interfaz extends JFrame implements ActionListener{
 		setTitle("Formulario");
 		setVisible(true);
 		
-		numControl = new JTextField();//Reasignacion
+		numControl = new JTextField();//=====================================================Reasignacion=======================================
 		nombre = new JTextField();
 		primerAp = new JTextField();
 		segundoAp = new JTextField();
@@ -68,7 +67,16 @@ class Interfaz extends JFrame implements ActionListener{
 		lblSemestre=new JLabel("SEMESTRE:");
 		lblCarrera=new JLabel("CARRERA:");
 		
-		cbTodos=new JCheckBox();
+		borrar = new JButton("BORRAR");
+		borrar.addActionListener(this);
+		interaccion = new JButton("");
+		interaccion.addActionListener(this);
+		cancelar = new JButton("CANCELAR");
+		cancelar.addActionListener(this);
+		File 
+		buscar = new JButton();
+		
+		cbTodos=new JCheckBox();//==============================================================Checkboxes=================================================
 		cbTodos.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -197,7 +205,7 @@ class Interfaz extends JFrame implements ActionListener{
 		JDesktopPane dp = new JDesktopPane();
 		
 		
-		recordAltas = new JInternalFrame();//Frame Altas====================================================================
+		recordAltas = new JInternalFrame();//==============================================Frame Altas====================================================================
 		recordAltas.getContentPane().setLayout(null);
 		recordAltas.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		recordAltas.setSize(567,425);
@@ -219,7 +227,7 @@ class Interfaz extends JFrame implements ActionListener{
 		panelAltas.setBounds(0, 50, 567, 425);
 		
 		
-		recordBajas = new JInternalFrame();//Frame Bajas========================================================================
+		recordBajas = new JInternalFrame();//==============================================Frame Bajas========================================================================
 		recordBajas.getContentPane().setLayout(null);
 		recordBajas.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		recordBajas.setSize(567,425);
@@ -241,7 +249,7 @@ class Interfaz extends JFrame implements ActionListener{
 		panelBajas.setBounds(0, 50, 567, 425);
 		
 		
-		recordCambios = new JInternalFrame();//Frame Cambios======================================================================
+		recordCambios = new JInternalFrame();//=========================================Frame Cambios======================================================================
 		recordCambios.getContentPane().setLayout(null);
 		recordCambios.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		recordCambios.setSize(567,425);
@@ -263,7 +271,7 @@ class Interfaz extends JFrame implements ActionListener{
 		panelCambios.setBounds(0, 50, 567, 425);
 		
 		
-		recordConsultas = new JInternalFrame();//Frame Consultas==================================================================
+		recordConsultas = new JInternalFrame();//========================================Frame Consultas==================================================================
 		recordConsultas.getContentPane().setLayout(null);
 		recordConsultas.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		recordConsultas.setSize(567,425);
@@ -284,12 +292,17 @@ class Interfaz extends JFrame implements ActionListener{
 		panelConsultas.setBackground(Color.WHITE);
 		panelConsultas.setBounds(0, 50, 567, 425);
 		
-		borrar = new JButton("BORRAR");
-		borrar.addActionListener(this);
-		interaccion = new JButton("");
-		interaccion.addActionListener(this);
-		cancelar = new JButton("CANCELAR");
-		cancelar.addActionListener(this);
+		String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};//==============Tabla================
+		String values [][] = new String[20][7];
+		
+		DefaultTableModel mod = new DefaultTableModel();
+		mod=new DefaultTableModel(values,atribs);
+		JTable table=new JTable(mod);
+		JTableHeader header = table.getTableHeader();
+		
+		JScrollPane sp = new JScrollPane(table);
+		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
 		
 		menuBar = new JMenuBar();
 		altas = new JMenu("Altas");
@@ -331,6 +344,12 @@ class Interfaz extends JFrame implements ActionListener{
 					interaccion.setText("AGREGAR");
 					metodoMagico(interaccion, 380, 46, 90, 18, panelAltas);
 					metodoMagico(cancelar, 375, 153, 100, 18, panelAltas);
+					
+					metodoMagico(header,20,281,525,20, panelAltas);
+					metodoMagico(sp,20,301,525,75, panelAltas);
+					recordAltas.add(header);
+					recordAltas.add(sp);
+					
 				}
 			});	
 		bajas = new JMenu("Bajas");
@@ -374,6 +393,11 @@ class Interfaz extends JFrame implements ActionListener{
 					interaccion.setText("ELIMINAR");
 					metodoMagico(interaccion, 380, 105, 90, 18, panelBajas);
 					metodoMagico(cancelar, 375, 153, 100, 18, panelBajas);
+					
+					metodoMagico(header,20,281,525,20, panelBajas);
+					metodoMagico(table,20,301,525,75, panelBajas);
+					recordBajas.add(header);
+					recordBajas.add(table);
 				}
 			});	
 		cambios = new JMenu("Cambios");
@@ -415,6 +439,11 @@ class Interfaz extends JFrame implements ActionListener{
 					interaccion.setText("GUARDAR CAMBIOS");
 					metodoMagico(interaccion, 380, 105, 160, 18, panelCambios);
 					metodoMagico(cancelar, 375, 153, 165, 18, panelCambios);
+					
+					metodoMagico(header,20,281,525,20, panelCambios);
+					metodoMagico(table,20,301,525,75, panelCambios);
+					recordCambios.add(header);
+					recordCambios.add(table);
 				}
 			});
 		consultas = new JMenu("Consultas");
@@ -476,6 +505,11 @@ class Interfaz extends JFrame implements ActionListener{
 					//interaccion.setText("GUARDAR CAMBIOS");
 					//metodoMagico(interaccion, 380, 105, 110, 18, panelBajas);
 					metodoMagico(cancelar, 375, 153, 100, 18, panelConsultas);
+					
+					metodoMagico(header,20,281,525,20, panelConsultas);
+					metodoMagico(table,20,301,525,75, panelConsultas);
+					recordConsultas.add(header);
+					recordConsultas.add(table);
 				}
 			});
 		menuBar.add(altas);
@@ -483,19 +517,6 @@ class Interfaz extends JFrame implements ActionListener{
 		menuBar.add(cambios);
 		menuBar.add(consultas);
 		setJMenuBar(menuBar);
-		
-		String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};//Tabla
-		String values [][] = new String[5][7];
-		
-		DefaultTableModel mod = new DefaultTableModel();
-		mod=new DefaultTableModel(values,atribs);
-		JTable table=new JTable();
-		table=new JTable(mod);
-		JTableHeader header = table.getTableHeader();
-		metodoMagico(header,20,281,525,20, panelAltas);
-		metodoMagico(table,20,301,525,75, panelAltas);
-		recordAltas.add(header);
-		recordAltas.add(table);
 		
 		recordAltas.add(panelAltasTitulo);
 		recordAltas.add(panelAltas);
