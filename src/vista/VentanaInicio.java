@@ -179,11 +179,8 @@ class Interfaz extends JFrame implements ActionListener{
 					primerAp.setEditable(true);
 					segundoAp.setEditable(true);
 					comboEdad.setEnabled(true);
-					comboEdad.setSelectedIndex(-1);
 					comboSemestre.setEnabled(true);
-					comboSemestre.setSelectedIndex(-1);
 					comboCarrera.setEnabled(true);
-					comboCarrera.setSelectedIndex(-1);
 					
 					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelAltas);//Labels
 					metodoMagico(lblNombres, 90, 60, 130, 20, panelAltas);
@@ -218,16 +215,15 @@ class Interfaz extends JFrame implements ActionListener{
 					recordCambios.setVisible(false);
 					recordConsultas.setVisible(false);
 					
+					metodoQueRestableceTODO(nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);
+					
 					numControl.setEditable(true);
 					nombre.setEditable(false);
 					primerAp.setEditable(false);
 					segundoAp.setEditable(false);
 					comboEdad.setEnabled(false);
-					comboEdad.setSelectedIndex(-1);
 					comboSemestre.setEnabled(false);
-					comboSemestre.setSelectedIndex(-1);
 					comboCarrera.setEnabled(false);
-					comboCarrera.setSelectedIndex(-1);
 					
 					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelBajas);//Labels
 					metodoMagico(lblNombres, 90, 60, 130, 20, panelBajas);
@@ -267,11 +263,8 @@ class Interfaz extends JFrame implements ActionListener{
 					primerAp.setEditable(true);
 					segundoAp.setEditable(true);
 					comboEdad.setEnabled(true);
-					comboEdad.setSelectedIndex(-1);
 					comboSemestre.setEnabled(true);
-					comboSemestre.setSelectedIndex(-1);
 					comboCarrera.setEnabled(true);
-					comboCarrera.setSelectedIndex(-1);
 					
 					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelCambios);//Labels
 					metodoMagico(lblNombres, 90, 60, 130, 20, panelCambios);
@@ -306,16 +299,15 @@ class Interfaz extends JFrame implements ActionListener{
 					recordCambios.setVisible(false);
 					recordConsultas.setVisible(true);
 					
+					metodoQueRestableceTODO(numControl,nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);
+					
 					numControl.setEditable(false);
 					nombre.setEditable(false);
 					primerAp.setEditable(false);
 					segundoAp.setEditable(false);
 					comboEdad.setEnabled(false);
-					comboEdad.setSelectedIndex(-1);
 					comboSemestre.setEnabled(false);
-					comboSemestre.setSelectedIndex(-1);
 					comboCarrera.setEnabled(false);
-					comboCarrera.setSelectedIndex(-1);
 					
 					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelConsultas);//Labels
 					metodoMagico(lblNombres, 90, 60, 130, 20, panelConsultas);
@@ -435,7 +427,7 @@ class Interfaz extends JFrame implements ActionListener{
 		
 		for (Component c: componentesGraficos) {
 			if (c instanceof JComboBox) {
-				((JComboBox<?>)c).setSelectedIndex(0);
+				((JComboBox<?>)c).setSelectedIndex(-1);
 			}else if (c instanceof JTextField) {
 				((JTextField)c).setText("");
 			}
