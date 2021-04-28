@@ -24,7 +24,7 @@ class Interfaz extends JFrame implements ActionListener{
 	JMenuBar menuBar;
 	JMenu altas, bajas, cambios, consultas;
 	JMenuItem menuItemAltas, menuItemBajas, menuItemCambios, menuItemConsultas;
-	JInternalFrame recordAltas, recordBajas, recordCambios, recordConsultas;
+	JInternalFrame recordAltas, recordBajas, recordCambios, recordConsultas, lista;
 	
 	JLabel lblNumeroDeControl,lblNombres,lblApellidoPaterno,lblApellidoMaterno,lblEdad,lblSemestre,lblCarrera;
 	JComboBox<String> comboEdad, comboCarrera, comboSemestre;
@@ -58,9 +58,8 @@ class Interfaz extends JFrame implements ActionListener{
 		comboCarrera.addItem("ADMON");
 		comboCarrera.addItem("IIA");
 		comboCarrera.addItem("LEC");
-		comboEdad.setSelectedIndex(-1);
-		comboSemestre.setSelectedIndex(-1);
-		comboCarrera.setSelectedIndex(-1);
+		
+		metodoQueRestableceTODO(comboEdad,comboSemestre,comboCarrera);
 		
 		lblNumeroDeControl=new JLabel("NUMERO DE CONTROL:");
 		lblNombres=new JLabel("NOMBRE:");
@@ -82,15 +81,8 @@ class Interfaz extends JFrame implements ActionListener{
 		cbTodos.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
+				
 				if(cbTodos.isSelected()) {
-					numControl.setEditable(true);
-					nombre.setEditable(true);
-					primerAp.setEditable(true);
-					segundoAp.setEditable(true);
-					comboEdad.setEnabled(true);
-					comboSemestre.setEnabled(true);
-					comboCarrera.setEnabled(true);
-					
 					cbNumeroDeControl.setSelected(false);
 					cbNombres.setSelected(false);
 					cbApellidoPaterno.setSelected(false);
@@ -106,6 +98,14 @@ class Interfaz extends JFrame implements ActionListener{
 					cbEdad.setEnabled(false);
 					cbSemestre.setEnabled(false);
 					cbCarrera.setEnabled(false);
+					
+					numControl.setEditable(true);
+					nombre.setEditable(true);
+					primerAp.setEditable(true);
+					segundoAp.setEditable(true);
+					comboEdad.setEnabled(true);
+					comboSemestre.setEnabled(true);
+					comboCarrera.setEnabled(true);
 	            }else {
 	            	numControl.setEditable(false);
 					nombre.setEditable(false);
@@ -189,7 +189,7 @@ class Interfaz extends JFrame implements ActionListener{
 		cbSemestre.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				if(cbNombres.isSelected()) {
+				if(cbSemestre.isSelected()) {
 					comboSemestre.setEnabled(true);
 	            }else {
 	            	comboSemestre.setSelectedIndex(-1);
@@ -215,103 +215,115 @@ class Interfaz extends JFrame implements ActionListener{
 		
 		
 		recordAltas = new JInternalFrame();//==============================================Frame Altas====================================================================
-		recordAltas.getContentPane().setLayout(null);
-		recordAltas.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		recordAltas.setSize(567,425);
-		recordAltas.setTitle("Altas Alumnos");
-		
+			recordAltas.getContentPane().setLayout(null);
+			recordAltas.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			recordAltas.setSize(567,290);
+			recordAltas.setTitle("Altas Alumnos");
 		JPanel panelAltasTitulo = new JPanel();//Panel titulo Altas
-		panelAltasTitulo.setLayout(null);
-		panelAltasTitulo.setBackground(Color.GREEN);
-		panelAltasTitulo.setBounds(0, 0, 567, 50);
-		
+			panelAltasTitulo.setLayout(null);
+			panelAltasTitulo.setBackground(Color.GREEN);
+			panelAltasTitulo.setBounds(0, 0, 567, 50);
 		JLabel tituloAltas = new JLabel("ALTAS ALUMNOS");
-		tituloAltas.setFont(new Font("Calibri", Font.BOLD, 20));
-		tituloAltas.setForeground(Color.WHITE);
-		metodoMagico(tituloAltas, 30, 20, 220, 20, panelAltasTitulo);
-		
+			tituloAltas.setFont(new Font("Calibri", Font.BOLD, 20));
+			tituloAltas.setForeground(Color.WHITE);
+			metodoMagico(tituloAltas, 30, 20, 220, 20, panelAltasTitulo);
 		JPanel panelAltas = new JPanel();//Panel Altas
-		panelAltas.setLayout(null);
-		panelAltas.setBackground(Color.WHITE);
-		panelAltas.setBounds(0, 50, 567, 425);
-		
+			panelAltas.setLayout(null);
+			panelAltas.setBackground(Color.WHITE);
+			panelAltas.setBounds(0, 50, 567, 425);
 		
 		recordBajas = new JInternalFrame();//==============================================Frame Bajas========================================================================
-		recordBajas.getContentPane().setLayout(null);
-		recordBajas.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		recordBajas.setSize(567,425);
-		recordBajas.setTitle("Bajas Alumnos");
-		
+			recordBajas.getContentPane().setLayout(null);
+			recordBajas.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			recordBajas.setSize(567,290);
+			recordBajas.setTitle("Bajas Alumnos");
 		JPanel panelBajasTitulo = new JPanel();//Panel titulo Bajas
-		panelBajasTitulo.setLayout(null);
-		panelBajasTitulo.setBackground(Color.RED);
-		panelBajasTitulo.setBounds(0, 0, 567, 50);
-		
+			panelBajasTitulo.setLayout(null);
+			panelBajasTitulo.setBackground(Color.RED);
+			panelBajasTitulo.setBounds(0, 0, 567, 50);
 		JLabel tituloBajas = new JLabel("BAJAS ALUMNOS");
-		tituloBajas.setFont(new Font("Calibri", Font.BOLD, 20));
-		tituloBajas.setForeground(Color.WHITE);
-		metodoMagico(tituloBajas, 30, 20, 220, 20, panelBajasTitulo);
-		
+			tituloBajas.setFont(new Font("Calibri", Font.BOLD, 20));
+			tituloBajas.setForeground(Color.WHITE);
+			metodoMagico(tituloBajas, 30, 20, 220, 20, panelBajasTitulo);
 		JPanel panelBajas = new JPanel();//Panel Bajas
-		panelBajas.setLayout(null);
-		panelBajas.setBackground(Color.WHITE);
-		panelBajas.setBounds(0, 50, 567, 425);
-		
-		
+			panelBajas.setLayout(null);
+			panelBajas.setBackground(Color.WHITE);
+			panelBajas.setBounds(0, 50, 567, 425);
+			
 		recordCambios = new JInternalFrame();//=========================================Frame Cambios======================================================================
-		recordCambios.getContentPane().setLayout(null);
-		recordCambios.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		recordCambios.setSize(567,425);
-		recordCambios.setTitle("Modificaciones Alumnos");
-		
+			recordCambios.getContentPane().setLayout(null);
+			recordCambios.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			recordCambios.setSize(567,290);
+			recordCambios.setTitle("Modificaciones Alumnos");
 		JPanel panelCambiosTitulo = new JPanel();//Panel titulo Cambios
-		panelCambiosTitulo.setLayout(null);
-		panelCambiosTitulo.setBackground(Color.ORANGE);
-		panelCambiosTitulo.setBounds(0, 0, 567, 50);
-		
+			panelCambiosTitulo.setLayout(null);
+			panelCambiosTitulo.setBackground(Color.ORANGE);
+			panelCambiosTitulo.setBounds(0, 0, 567, 50);
 		JLabel tituloCambios = new JLabel("MODIFICACIONES ALUMNOS");
-		tituloCambios.setFont(new Font("Calibri", Font.BOLD, 20));
-		tituloCambios.setForeground(Color.WHITE);
-		metodoMagico(tituloCambios, 30, 20, 270, 20, panelCambiosTitulo);
-		
+			tituloCambios.setFont(new Font("Calibri", Font.BOLD, 20));
+			tituloCambios.setForeground(Color.WHITE);
+			metodoMagico(tituloCambios, 30, 20, 270, 20, panelCambiosTitulo);
 		JPanel panelCambios = new JPanel();//Panel Cambios
-		panelCambios.setLayout(null);
-		panelCambios.setBackground(Color.WHITE);
-		panelCambios.setBounds(0, 50, 567, 425);
-		
+			panelCambios.setLayout(null);
+			panelCambios.setBackground(Color.WHITE);
+			panelCambios.setBounds(0, 50, 567, 425);
 		
 		recordConsultas = new JInternalFrame();//========================================Frame Consultas==================================================================
-		recordConsultas.getContentPane().setLayout(null);
-		recordConsultas.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		recordConsultas.setSize(567,425);
-		recordConsultas.setTitle("Bajas Alumnos");
-		
+			recordConsultas.getContentPane().setLayout(null);
+			recordConsultas.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			recordConsultas.setSize(567,290);
+			recordConsultas.setTitle("Bajas Alumnos");
 		JPanel panelConsultasTitulo = new JPanel();//Panel titulo Consultas
-		panelConsultasTitulo.setLayout(null);
-		panelConsultasTitulo.setBackground(Color.BLUE);
-		panelConsultasTitulo.setBounds(0, 0, 567, 50);
-		
+			panelConsultasTitulo.setLayout(null);
+			panelConsultasTitulo.setBackground(Color.BLUE);
+			panelConsultasTitulo.setBounds(0, 0, 567, 50);
 		JLabel tituloConsultas = new JLabel("CONSULTAS ALUMNOS");
-		tituloConsultas.setFont(new Font("Calibri", Font.BOLD, 20));
-		tituloConsultas.setForeground(Color.WHITE);
-		metodoMagico(tituloConsultas, 30, 20, 270, 20, panelConsultasTitulo);
-		
+			tituloConsultas.setFont(new Font("Calibri", Font.BOLD, 20));
+			tituloConsultas.setForeground(Color.WHITE);
+			metodoMagico(tituloConsultas, 30, 20, 270, 20, panelConsultasTitulo);
 		JPanel panelConsultas = new JPanel();//Panel Consultas
-		panelConsultas.setLayout(null);
-		panelConsultas.setBackground(Color.WHITE);
-		panelConsultas.setBounds(0, 50, 567, 425);
+			panelConsultas.setLayout(null);
+			panelConsultas.setBackground(Color.WHITE);
+			panelConsultas.setBounds(0, 50, 567, 425);
+			
+		lista = new JInternalFrame();//========================================Frame Lista==================================================================
+			lista.getContentPane().setLayout(null);
+			lista.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			lista.setSize(567,135);
+			lista.setLocation(0, 290);
+			lista.setTitle("Lista");
 		
-		String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};//==============Tabla================
-		String values [][] = new String[20][7];
+			
+			AlumnoDAO aDAO = new AlumnoDAO();
+			ArrayList<Alumno> alumnos = aDAO.buscarAlumnos("");
+			String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};//==============Tabla================
+			String values [][] = new String[alumnos.size()][7];
 		
-		DefaultTableModel mod = new DefaultTableModel();
-		mod=new DefaultTableModel(values,atribs);
-		JTable table=new JTable(mod);
-		JTableHeader header = table.getTableHeader();
-		
-		JScrollPane sp = new JScrollPane(table);
-		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		
+			
+			for (int i=0;i<alumnos.size();i++) {
+				Alumno a = alumnos.get(i);
+				values[i][0]=a.getNumControl();
+				values[i][1]=a.getNombre();
+				values[i][2]=a.getPrimerAp();
+				values[i][3]=a.getSegundoAp();
+				values[i][4]=Byte.toString(a.getEdad());
+				values[i][5]=Byte.toString(a.getSemestre());
+				values[i][6]=a.getCarrera();
+			    }
+			
+			DefaultTableModel mod = new DefaultTableModel();
+			mod=new DefaultTableModel(values,atribs);
+			JTable table=new JTable(mod);
+			JTableHeader header = table.getTableHeader();
+			
+			JScrollPane sp = new JScrollPane(table);
+			sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			header.setBounds(20,0,525,0);
+			sp.setBounds(20,0,525,85);
+			
+			lista.add(header);
+			lista.add(sp);
+			lista.setVisible(true);
 		
 		menuBar = new JMenuBar();
 		altas = new JMenu("Altas");
@@ -354,10 +366,7 @@ class Interfaz extends JFrame implements ActionListener{
 					metodoMagico(interaccion, 380, 46, 90, 18, panelAltas);
 					metodoMagico(cancelar, 375, 153, 100, 18, panelAltas);
 					
-					metodoMagico(header,20,281,525,20, panelAltas);
-					metodoMagico(sp,20,301,525,75, panelAltas);
-					recordAltas.add(header);
-					recordAltas.add(sp);
+					
 					
 				}
 			});	
@@ -536,6 +545,7 @@ class Interfaz extends JFrame implements ActionListener{
 		recordConsultas.add(panelConsultasTitulo);
 		recordConsultas.add(panelConsultas);
 		
+		dp.add(lista);
 		dp.add(recordAltas);
 		dp.add(recordBajas);
 		dp.add(recordCambios);
@@ -632,6 +642,9 @@ class Interfaz extends JFrame implements ActionListener{
 		}
 		if (arg0.getSource()==cancelar) {
 			recordAltas.setVisible(false);
+			recordBajas.setVisible(false);
+			recordCambios.setVisible(false);
+			recordConsultas.setVisible(false);
 		}
 		
 	}
@@ -653,8 +666,6 @@ class Interfaz extends JFrame implements ActionListener{
 		
 	}
 	
-	
-	 
 }
 
 public class VentanaInicio {
