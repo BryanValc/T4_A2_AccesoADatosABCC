@@ -36,66 +36,28 @@ class Interfaz extends JFrame implements ActionListener{
 		setTitle("Formulario");
 		setVisible(true);
 		
-		menuBar = new JMenuBar();
-		altas = new JMenu("Altas");
-			menuItemAltas= new JMenuItem("registrar");
-			altas.add(menuItemAltas);
-			menuItemAltas.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					recordAltas.setVisible(true);
-					recordBajas.setVisible(false);
-					recordCambios.setVisible(false);
-					recordConsultas.setVisible(false);
-					
-				}
-			});	
-		bajas = new JMenu("Bajas");
-			menuItemBajas= new JMenuItem("eliminar");
-			bajas.add(menuItemBajas);
-			menuItemBajas.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					recordAltas.setVisible(false);
-					recordBajas.setVisible(true);
-					recordCambios.setVisible(false);
-					recordConsultas.setVisible(false);
-					
-				}
-			});	
-		cambios = new JMenu("Cambios");
-			menuItemCambios= new JMenuItem("modificar");
-			cambios.add(menuItemCambios);
-			menuItemCambios.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					recordAltas.setVisible(false);
-					recordBajas.setVisible(false);
-					recordCambios.setVisible(true);
-					recordConsultas.setVisible(false);
-					
-				}
-			});
-		consultas = new JMenu("Consultas");
-			menuItemConsultas= new JMenuItem("buscar");
-			consultas.add(menuItemConsultas);
-			menuItemConsultas.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					recordAltas.setVisible(false);
-					recordBajas.setVisible(false);
-					recordCambios.setVisible(false);
-					recordConsultas.setVisible(true);
-					
-				}
-			});
-		menuBar.add(altas);
-		menuBar.add(bajas);
-		menuBar.add(cambios);
-		menuBar.add(consultas);
-		setJMenuBar(menuBar);
+		numControl = new JTextField();//Reasignacion
+		nombre = new JTextField();
+		primerAp = new JTextField();
+		segundoAp = new JTextField();
+		comboEdad = new JComboBox<String>();
+		comboSemestre = new JComboBox<String>();
+		comboCarrera = new JComboBox<String>();
 		
-		JDesktopPane dp = new JDesktopPane();
+		for (int i = 1; i <= 122; i++) {
+			comboEdad.addItem(""+i);
+		}
+		for (int i = 1; i <= 10; i++) {
+			comboSemestre.addItem(""+i);
+		}
+		comboCarrera.addItem("ISC");
+		comboCarrera.addItem("IM");
+		comboCarrera.addItem("ADMON");
+		comboCarrera.addItem("IIA");
+		comboCarrera.addItem("LEC");
+		
+		
+JDesktopPane dp = new JDesktopPane();
 		
 		
 		recordAltas = new JInternalFrame();//Frame Altas
@@ -112,7 +74,7 @@ class Interfaz extends JFrame implements ActionListener{
 		JLabel tituloAltas = new JLabel("ALTAS ALUMNOS");
 		tituloAltas.setFont(new Font("Calibri", Font.BOLD, 20));
 		tituloAltas.setForeground(Color.WHITE);
-		metodoMagico(tituloAltas, panelAltasTitulo, 30, 20, 220, 20);
+		metodoMagico(tituloAltas, 30, 20, 220, 20, panelAltasTitulo);
 		
 		JPanel panelAltas = new JPanel();//Panel Altas
 		panelAltas.setLayout(null);
@@ -134,7 +96,7 @@ class Interfaz extends JFrame implements ActionListener{
 		JLabel tituloBajas = new JLabel("BAJAS ALUMNOS");
 		tituloBajas.setFont(new Font("Calibri", Font.BOLD, 20));
 		tituloBajas.setForeground(Color.WHITE);
-		metodoMagico(tituloBajas, panelBajasTitulo, 30, 20, 220, 20);
+		metodoMagico(tituloBajas, 30, 20, 220, 20, panelBajasTitulo);
 		
 		JPanel panelBajas = new JPanel();//Panel Bajas
 		panelBajas.setLayout(null);
@@ -156,7 +118,7 @@ class Interfaz extends JFrame implements ActionListener{
 		JLabel tituloCambios = new JLabel("MODIFICACIONES ALUMNOS");
 		tituloCambios.setFont(new Font("Calibri", Font.BOLD, 20));
 		tituloCambios.setForeground(Color.WHITE);
-		metodoMagico(tituloCambios, panelCambiosTitulo, 30, 20, 270, 20);
+		metodoMagico(tituloCambios, 30, 20, 270, 20, panelCambiosTitulo);
 		
 		JPanel panelCambios = new JPanel();//Panel Cambios
 		panelCambios.setLayout(null);
@@ -178,62 +140,164 @@ class Interfaz extends JFrame implements ActionListener{
 		JLabel tituloConsultas = new JLabel("CONSULTAS ALUMNOS");
 		tituloConsultas.setFont(new Font("Calibri", Font.BOLD, 20));
 		tituloConsultas.setForeground(Color.WHITE);
-		metodoMagico(tituloConsultas, panelConsultasTitulo, 30, 20, 270, 20);
+		metodoMagico(tituloConsultas, 30, 20, 270, 20, panelConsultasTitulo);
 		
 		JPanel panelConsultas = new JPanel();//Panel Consultas
 		panelConsultas.setLayout(null);
 		panelConsultas.setBackground(Color.WHITE);
 		panelConsultas.setBounds(0, 50, 567, 425);
 		
+		menuBar = new JMenuBar();
+		altas = new JMenu("Altas");
+			menuItemAltas= new JMenuItem("registrar");
+			altas.add(menuItemAltas);
+			menuItemAltas.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					recordAltas.setVisible(true);
+					recordBajas.setVisible(false);
+					recordCambios.setVisible(false);
+					recordConsultas.setVisible(false);
+					
+					numControl.setEditable(true);
+					nombre.setEditable(true);
+					primerAp.setEditable(true);
+					segundoAp.setEditable(true);
+					comboEdad.setEditable(true);
+					comboSemestre.setEditable(true);
+					comboCarrera.setEditable(true);
+					
+					metodoMagico(new JLabel("NUMERO DE CONTROL:"), 90, 37, 130, 20, panelAltas);//Labels
+					metodoMagico(new JLabel("NOMBRES:"), 90, 60, 130, 20, panelAltas);
+					metodoMagico(new JLabel("APELLIDO PATERNO: "), 90, 83, 130, 20, panelAltas);
+					metodoMagico(new JLabel("APELLIDO MATERNO: "), 90, 106, 130, 20, panelAltas);
+					metodoMagico(new JLabel("EDAD: "), 90, 129, 130, 20, panelAltas);
+					metodoMagico(new JLabel("SEMESTRE: "), 90, 159, 130, 20, panelAltas);
+					metodoMagico(new JLabel("CARRERA: "), 90, 177, 130, 20, panelAltas);
+				}
+			});	
+		bajas = new JMenu("Bajas");
+			menuItemBajas= new JMenuItem("eliminar");
+			bajas.add(menuItemBajas);
+			menuItemBajas.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					recordAltas.setVisible(false);
+					recordBajas.setVisible(true);
+					recordCambios.setVisible(false);
+					recordConsultas.setVisible(false);
+					
+					numControl.setEditable(true);
+					nombre.setEditable(false);
+					primerAp.setEditable(false);
+					segundoAp.setEditable(false);
+					comboEdad.setEditable(false);
+					comboSemestre.setEditable(false);
+					comboCarrera.setEditable(false);
+					
+					metodoMagico(new JLabel("NUMERO DE CONTROL:"), 90, 37, 130, 20, panelBajas);//Labels
+					metodoMagico(new JLabel("NOMBRES:"), 90, 60, 130, 20, panelBajas);
+					metodoMagico(new JLabel("APELLIDO PATERNO: "), 90, 83, 130, 20, panelBajas);
+					metodoMagico(new JLabel("APELLIDO MATERNO: "), 90, 106, 130, 20, panelBajas);
+					metodoMagico(new JLabel("EDAD: "), 90, 129, 130, 20, panelBajas);
+					metodoMagico(new JLabel("SEMESTRE: "), 90, 159, 130, 20, panelBajas);
+					metodoMagico(new JLabel("CARRERA: "), 90, 177, 130, 20, panelBajas);
+				}
+			});	
+		cambios = new JMenu("Cambios");
+			menuItemCambios= new JMenuItem("modificar");
+			cambios.add(menuItemCambios);
+			menuItemCambios.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					recordAltas.setVisible(false);
+					recordBajas.setVisible(false);
+					recordCambios.setVisible(true);
+					recordConsultas.setVisible(false);
+					
+					numControl.setEditable(true);
+					nombre.setEditable(true);
+					primerAp.setEditable(true);
+					segundoAp.setEditable(true);
+					comboEdad.setEditable(true);
+					comboSemestre.setEditable(true);
+					comboCarrera.setEditable(true);
+					
+					metodoMagico(new JLabel("NUMERO DE CONTROL:"), 90, 37, 130, 20, panelCambios);//Labels
+					metodoMagico(new JLabel("NOMBRES:"), 90, 60, 130, 20, panelCambios);
+					metodoMagico(new JLabel("APELLIDO PATERNO: "), 90, 83, 130, 20, panelCambios);
+					metodoMagico(new JLabel("APELLIDO MATERNO: "), 90, 106, 130, 20, panelCambios);
+					metodoMagico(new JLabel("EDAD: "), 90, 129, 130, 20, panelCambios);
+					metodoMagico(new JLabel("SEMESTRE: "), 90, 159, 130, 20, panelCambios);
+					metodoMagico(new JLabel("CARRERA: "), 90, 177, 130, 20, panelCambios);
+					
+				}
+			});
+		consultas = new JMenu("Consultas");
+			menuItemConsultas= new JMenuItem("buscar");
+			consultas.add(menuItemConsultas);
+			menuItemConsultas.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					recordAltas.setVisible(false);
+					recordBajas.setVisible(false);
+					recordCambios.setVisible(false);
+					recordConsultas.setVisible(true);
+					
+					numControl.setEditable(false);
+					nombre.setEditable(false);
+					primerAp.setEditable(false);
+					segundoAp.setEditable(false);
+					comboEdad.setEditable(false);
+					comboSemestre.setEditable(false);
+					comboCarrera.setEditable(false);
+					
+					metodoMagico(new JLabel("NUMERO DE CONTROL:"), 90, 37, 130, 20, panelConsultas);//Labels
+					metodoMagico(new JLabel("NOMBRES:"), 90, 60, 130, 20, panelConsultas);
+					metodoMagico(new JLabel("APELLIDO PATERNO: "), 90, 83, 130, 20, panelConsultas);
+					metodoMagico(new JLabel("APELLIDO MATERNO: "), 90, 106, 130, 20, panelConsultas);
+					metodoMagico(new JLabel("EDAD: "), 90, 129, 130, 20, panelConsultas);
+					metodoMagico(new JLabel("SEMESTRE: "), 90, 159, 130, 20, panelConsultas);
+					metodoMagico(new JLabel("CARRERA: "), 90, 177, 130, 20, panelConsultas);
+					
+				}
+			});
+		menuBar.add(altas);
+		menuBar.add(bajas);
+		menuBar.add(cambios);
+		menuBar.add(consultas);
+		setJMenuBar(menuBar);
 		
 		
-		metodoMagico(new JLabel("NUMERO DE CONTROL:"), panelAltas, 90, 37, 130, 20);//Labels
-		metodoMagico(new JLabel("NOMBRES:"), panelAltas, 90, 60, 130, 20);
-		metodoMagico(new JLabel("APELLIDO PATERNO: "), panelAltas, 90, 83, 130, 20);
-		metodoMagico(new JLabel("APELLIDO MATERNO: "), panelAltas, 90, 106, 130, 20);
-		metodoMagico(new JLabel("EDAD: "), panelAltas, 90, 129, 130, 20);
-		metodoMagico(new JLabel("SEMESTRE: "), panelAltas, 90, 159, 130, 20);
-		metodoMagico(new JLabel("CARRERA: "), panelAltas, 90, 177, 130, 20);
 		
-		numControl = new JTextField();//Reasignacion
-		nombre = new JTextField();
-		primerAp = new JTextField();
-		segundoAp = new JTextField();
-		comboEdad = new JComboBox<String>();
-		comboSemestre = new JComboBox<String>();
-		comboCarrera = new JComboBox<String>();
 		
-		for (int i = 1; i <= 122; i++) {
-			comboEdad.addItem(""+i);
-		}
-		for (int i = 1; i <= 10; i++) {
-			comboSemestre.addItem(""+i);
-		}
-		comboCarrera.addItem("ISC");
-		comboCarrera.addItem("IM");
-		comboCarrera.addItem("ADMON");
-		comboCarrera.addItem("IIA");
-		comboCarrera.addItem("LEC");
+		/*metodoMagico(new JLabel("NUMERO DE CONTROL:"), 90, 37, 130, 20, panelAltas);//Labels
+		metodoMagico(new JLabel("NOMBRES:"), 90, 60, 130, 20, panelAltas);
+		metodoMagico(new JLabel("APELLIDO PATERNO: "), 90, 83, 130, 20, panelAltas);
+		metodoMagico(new JLabel("APELLIDO MATERNO: "), 90, 106, 130, 20, panelAltas);
+		metodoMagico(new JLabel("EDAD: "), 90, 129, 130, 20, panelAltas);
+		metodoMagico(new JLabel("SEMESTRE: "), 90, 159, 130, 20, panelAltas);
+		metodoMagico(new JLabel("CARRERA: "), 90, 177, 130, 20, panelAltas);*/
 		
-		metodoMagico(numControl, panelAltas, 226, 40, 134, 17);//Posicionamiento
-		metodoMagico(nombre, panelAltas, 172, 63, 187, 17);
-		metodoMagico(primerAp, panelAltas, 216, 86, 144, 17);
-		metodoMagico(segundoAp, panelAltas, 216, 109, 144, 17);
-		metodoMagico(comboEdad, panelAltas, 216, 137, 40, 16);
-		metodoMagico(comboSemestre, panelAltas, 216, 165, 144, 16);
-		metodoMagico(comboCarrera, panelAltas, 216, 181, 144, 16);
+		metodoMagico(numControl, 226, 40, 134, 17, panelAltas);//Posicionamiento
+		metodoMagico(nombre, 172, 63, 187, 17, panelAltas);
+		metodoMagico(primerAp, 216, 86, 144, 17, panelAltas);
+		metodoMagico(segundoAp, 216, 109, 144, 17, panelAltas);
+		metodoMagico(comboEdad, 216, 137, 40, 16, panelAltas);
+		metodoMagico(comboSemestre, 216, 165, 144, 16, panelAltas);
+		metodoMagico(comboCarrera, 216, 181, 144, 16, panelAltas);
 		
 		agregar = new JButton("AGREGAR");
 		agregar.addActionListener(this);
-		metodoMagico(agregar, panelAltas, 380, 46, 90, 18);
+		metodoMagico(agregar, 380, 46, 90, 18, panelAltas);
 		
 		borrar = new JButton("BORRAR");
 		borrar.addActionListener(this);
-		metodoMagico(borrar, panelAltas, 380, 105, 90, 18);
+		metodoMagico(borrar, 380, 105, 90, 18, panelAltas);
 		
 		cancelar = new JButton("CANCELAR");
 		cancelar.addActionListener(this);
-		metodoMagico(cancelar, panelAltas, 375, 153, 100, 18);
+		metodoMagico(cancelar, 375, 153, 100, 18, panelAltas);
 		
 		String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};//Tabla
 		String values [][] = new String[5][7];
@@ -243,8 +307,8 @@ class Interfaz extends JFrame implements ActionListener{
 		JTable table=new JTable();
 		table=new JTable(mod);
 		JTableHeader header = table.getTableHeader();
-		metodoMagico(header,panelAltas,20,281,525,20);
-		metodoMagico(table,panelAltas,20,301,525,75);
+		metodoMagico(header,20,281,525,20, panelAltas);
+		metodoMagico(table,20,301,525,75, panelAltas);
 		recordAltas.add(header);
 		recordAltas.add(table);
 		
@@ -281,11 +345,11 @@ class Interfaz extends JFrame implements ActionListener{
 			//BUSCAR FILTRO
 			//System.out.println(aDAO.buscarAlumnos("")?"EXITO":"Me cambio de carrera")
 			
-			ArrayList<Alumno> xd = aDAO.buscarAlumnos("");
+			/*ArrayList<Alumno> xd = aDAO.buscarAlumnos("");
 			for (int i=0;i<xd.size();i++) {
 			      System.out.println(xd.get(i));
 			    }
-			System.out.println();
+			System.out.println();*/
 			
 		}
 		if (arg0.getSource()==borrar) {
@@ -297,7 +361,7 @@ class Interfaz extends JFrame implements ActionListener{
 		
 	}
 	
-	public void metodoMagico(Component c, JPanel p, int x, int y,int width, int height) {
+	public void metodoMagico(Component c, int x, int y,int width, int height, JPanel p) {
 		p.add(c);
 		c.setBounds(x, y, width, height);
 	}
