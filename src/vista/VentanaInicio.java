@@ -44,6 +44,9 @@ class Interfaz extends JFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					recordAltas.setVisible(true);
+					recordBajas.setVisible(false);
+					recordCambios.setVisible(false);
+					recordConsultas.setVisible(false);
 					
 				}
 			});	
@@ -53,28 +56,35 @@ class Interfaz extends JFrame implements ActionListener{
 			menuItemBajas.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					recordAltas.setVisible(false);
 					recordBajas.setVisible(true);
+					recordCambios.setVisible(false);
+					recordConsultas.setVisible(false);
 					
 				}
 			});	
-		
-		
 		cambios = new JMenu("Cambios");
 			menuItemCambios= new JMenuItem("modificar");
-			consultas.add(menuItemCambios);
+			cambios.add(menuItemCambios);
 			menuItemCambios.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					recordAltas.setVisible(false);
+					recordBajas.setVisible(false);
 					recordCambios.setVisible(true);
+					recordConsultas.setVisible(false);
 					
 				}
 			});
 		consultas = new JMenu("Consultas");
-			menuItemCambios= new JMenuItem("buscar");
+			menuItemConsultas= new JMenuItem("buscar");
 			consultas.add(menuItemConsultas);
 			menuItemConsultas.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					recordAltas.setVisible(false);
+					recordBajas.setVisible(false);
+					recordCambios.setVisible(false);
 					recordConsultas.setVisible(true);
 					
 				}
@@ -86,13 +96,15 @@ class Interfaz extends JFrame implements ActionListener{
 		setJMenuBar(menuBar);
 		
 		JDesktopPane dp = new JDesktopPane();
-		recordAltas = new JInternalFrame();
+		
+		
+		recordAltas = new JInternalFrame();//Frame Altas
 		recordAltas.getContentPane().setLayout(null);
 		recordAltas.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		recordAltas.setSize(567,425);
 		recordAltas.setTitle("Altas Alumnos");
 		
-		JPanel panelAltasTitulo = new JPanel();//Panel titulo
+		JPanel panelAltasTitulo = new JPanel();//Panel titulo Altas
 		panelAltasTitulo.setLayout(null);
 		panelAltasTitulo.setBackground(Color.GREEN);
 		panelAltasTitulo.setBounds(0, 0, 567, 50);
@@ -106,6 +118,74 @@ class Interfaz extends JFrame implements ActionListener{
 		panelAltas.setLayout(null);
 		panelAltas.setBackground(Color.WHITE);
 		panelAltas.setBounds(0, 50, 567, 425);
+		
+		
+		recordBajas = new JInternalFrame();//Frame Bajas
+		recordBajas.getContentPane().setLayout(null);
+		recordBajas.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		recordBajas.setSize(567,425);
+		recordBajas.setTitle("Bajas Alumnos");
+		
+		JPanel panelBajasTitulo = new JPanel();//Panel titulo Bajas
+		panelBajasTitulo.setLayout(null);
+		panelBajasTitulo.setBackground(Color.RED);
+		panelBajasTitulo.setBounds(0, 0, 567, 50);
+		
+		JLabel tituloBajas = new JLabel("BAJAS ALUMNOS");
+		tituloBajas.setFont(new Font("Calibri", Font.BOLD, 20));
+		tituloBajas.setForeground(Color.WHITE);
+		metodoMagico(tituloBajas, panelBajasTitulo, 30, 20, 220, 20);
+		
+		JPanel panelBajas = new JPanel();//Panel Bajas
+		panelBajas.setLayout(null);
+		panelBajas.setBackground(Color.WHITE);
+		panelBajas.setBounds(0, 50, 567, 425);
+		
+		
+		recordCambios = new JInternalFrame();//Frame Cambios
+		recordCambios.getContentPane().setLayout(null);
+		recordCambios.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		recordCambios.setSize(567,425);
+		recordCambios.setTitle("Modificaciones Alumnos");
+		
+		JPanel panelCambiosTitulo = new JPanel();//Panel titulo Cambios
+		panelCambiosTitulo.setLayout(null);
+		panelCambiosTitulo.setBackground(Color.ORANGE);
+		panelCambiosTitulo.setBounds(0, 0, 567, 50);
+		
+		JLabel tituloCambios = new JLabel("MODIFICACIONES ALUMNOS");
+		tituloCambios.setFont(new Font("Calibri", Font.BOLD, 20));
+		tituloCambios.setForeground(Color.WHITE);
+		metodoMagico(tituloCambios, panelCambiosTitulo, 30, 20, 270, 20);
+		
+		JPanel panelCambios = new JPanel();//Panel Cambios
+		panelCambios.setLayout(null);
+		panelCambios.setBackground(Color.WHITE);
+		panelCambios.setBounds(0, 50, 567, 425);
+		
+		
+		recordConsultas = new JInternalFrame();//Frame Consultas
+		recordConsultas.getContentPane().setLayout(null);
+		recordConsultas.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		recordConsultas.setSize(567,425);
+		recordConsultas.setTitle("Bajas Alumnos");
+		
+		JPanel panelConsultasTitulo = new JPanel();//Panel titulo Consultas
+		panelConsultasTitulo.setLayout(null);
+		panelConsultasTitulo.setBackground(Color.BLUE);
+		panelConsultasTitulo.setBounds(0, 0, 567, 50);
+		
+		JLabel tituloConsultas = new JLabel("CONSULTAS ALUMNOS");
+		tituloConsultas.setFont(new Font("Calibri", Font.BOLD, 20));
+		tituloConsultas.setForeground(Color.WHITE);
+		metodoMagico(tituloConsultas, panelConsultasTitulo, 30, 20, 270, 20);
+		
+		JPanel panelConsultas = new JPanel();//Panel Consultas
+		panelConsultas.setLayout(null);
+		panelConsultas.setBackground(Color.WHITE);
+		panelConsultas.setBounds(0, 50, 567, 425);
+		
+		
 		
 		metodoMagico(new JLabel("NUMERO DE CONTROL:"), panelAltas, 90, 37, 130, 20);//Labels
 		metodoMagico(new JLabel("NOMBRES:"), panelAltas, 90, 60, 130, 20);
@@ -170,7 +250,17 @@ class Interfaz extends JFrame implements ActionListener{
 		
 		recordAltas.add(panelAltasTitulo);
 		recordAltas.add(panelAltas);
+		recordBajas.add(panelBajasTitulo);
+		recordBajas.add(panelBajas);
+		recordCambios.add(panelCambiosTitulo);
+		recordCambios.add(panelCambios);
+		recordConsultas.add(panelConsultasTitulo);
+		recordConsultas.add(panelConsultas);
+		
 		dp.add(recordAltas);
+		dp.add(recordBajas);
+		dp.add(recordCambios);
+		dp.add(recordConsultas);
 		dp.setBounds(0, 0, 567, 425);
 		add(dp);
 		
