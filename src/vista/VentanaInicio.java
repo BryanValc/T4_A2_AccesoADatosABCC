@@ -550,51 +550,63 @@ class Interfaz extends JFrame implements ActionListener{
 		if (arg0.getSource()==interaccion) {
 			AlumnoDAO aDAO = new AlumnoDAO();
 			if (recordAltas.isVisible()) {
-				Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
-						(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), comboCarrera.getSelectedItem().toString());
-				if (aDAO.insertarRegistro(a)) {
-					JOptionPane.showMessageDialog(null, "Alumno agregado exitosamente");
+				if (numControl.getText().equals("")||nombre.getText().equals("")||primerAp.getText().equals("")||segundoAp.getText().equals("")||comboEdad.getSelectedIndex()==-1||comboSemestre.getSelectedIndex()==-1||comboCarrera.getSelectedIndex()==-1) {
+					JOptionPane.showMessageDialog(null, "Error: faltan uno o más campos");
 				}else {
-					JOptionPane.showMessageDialog(null, "No se pudo agregar al alumno");
+					Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
+							(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), comboCarrera.getSelectedItem().toString());
+					if (aDAO.insertarRegistro(a)) {
+						JOptionPane.showMessageDialog(null, "Alumno agregado exitosamente");
+					}else {
+						JOptionPane.showMessageDialog(null, "No se pudo agregar al alumno");
+					}
 				}
 			}else if(recordBajas.isVisible()) {
-				if (aDAO.eliminarRegistro(numControl.getText())) {
-					JOptionPane.showMessageDialog(null, "Alumno eliminado exitosamente");
+				if (numControl.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "No se esta especificando el numero de control");
 				}else {
-					JOptionPane.showMessageDialog(null, "No se pudo eliminar al alumno");
+					if (aDAO.eliminarRegistro(numControl.getText())) {
+						JOptionPane.showMessageDialog(null, "Alumno eliminado exitosamente");
+					}else {
+						JOptionPane.showMessageDialog(null, "No se pudo eliminar al alumno");
+					}
 				}
-				
 			}else if (recordCambios.isVisible()) {
 				
-				Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
-						(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), 
-						comboCarrera.getSelectedIndex()!=-1?comboCarrera.getSelectedItem().toString():"");
-				boolean flags[]=new boolean[6];
-				flags[0]=!nombre.getText().equals("");
-				flags[1]=!primerAp.getText().equals("");
-				flags[2]=!segundoAp.getText().equals("");
-				flags[3]=comboEdad.getSelectedIndex()!=-1;
-				flags[4]=comboSemestre.getSelectedIndex()!=-1;
-				flags[5]=comboCarrera.getSelectedIndex()!=-1;
+				if (numControl.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "No se esta especificando el numero de control");
+				}else {
+					Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
+							(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), 
+							comboCarrera.getSelectedIndex()!=-1?comboCarrera.getSelectedItem().toString():"");
+					boolean flags[]=new boolean[6];
+					flags[0]=!nombre.getText().equals("");
+					flags[1]=!primerAp.getText().equals("");
+					flags[2]=!segundoAp.getText().equals("");
+					flags[3]=comboEdad.getSelectedIndex()!=-1;
+					flags[4]=comboSemestre.getSelectedIndex()!=-1;
+					flags[5]=comboCarrera.getSelectedIndex()!=-1;
+					
+					if (aDAO.modificarRegistro(a, flags)) {
+						JOptionPane.showMessageDialog(null, "Datos de Alumno modificados exitosamente");
+					}else {
+						JOptionPane.showMessageDialog(null, "No se pudieron modificar los datos del alumno");
+					}
+				}
 				
-				if (aDAO.modificarRegistro(a, flags)) {
-					JOptionPane.showMessageDialog(null, "Datos de Alumno modificados exitosamente");
-				}else {
-					JOptionPane.showMessageDialog(null, "No se pudieron modificar los datos del alumno");
-				}
 			}else if(recordConsultas.isVisible()) {
-				ArrayList<Alumno> listaAlumnos = aDAO.buscarAlumnos("PARAMETROS");
-				if (listaAlumnos.size()!=0) {
-					JOptionPane.showMessageDialog(null, "Se encontraron registros que coinciden");
+				if (numControl.getText().equals("")&&nombre.getText().equals("")&&primerAp.getText().equals("")&&segundoAp.getText().equals("")&&comboEdad.getSelectedIndex()==-1&&comboSemestre.getSelectedIndex()==-1&&comboCarrera.getSelectedIndex()==-1) {
+					JOptionPane.showMessageDialog(null, "Error: no se lleno ningun campo");
 				}else {
-					JOptionPane.showMessageDialog(null, "No se encontraron coincidencias");
+					ArrayList<Alumno> listaAlumnos = aDAO.buscarAlumnos("PARAMETROS");
+					if (listaAlumnos.size()!=0) {
+						JOptionPane.showMessageDialog(null, "Se encontraron registros que coinciden");
+					}else {
+						JOptionPane.showMessageDialog(null, "No se encontraron coincidencias");
+					}
 				}
+				
 			}
-			
-			
-			
-			
-			
 			
 			//Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
 			//		(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), comboCarrera.getSelectedItem().toString());

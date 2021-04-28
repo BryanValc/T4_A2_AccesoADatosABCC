@@ -98,7 +98,6 @@ public class AlumnoDAO {
 	public ArrayList<Alumno> buscarAlumnos(String filtro){
 		ArrayList<Alumno> listaAlumnos = new ArrayList<Alumno>();
 		
-		//"SELECT * FROM alumnos"
 		String sql = "SELECT * FROM alumnos";
 		ResultSet rs = conexion.ejecutarConsulta(sql);
 		
