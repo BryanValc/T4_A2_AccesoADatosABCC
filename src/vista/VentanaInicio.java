@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.security.AllPermission;
+import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -20,8 +21,8 @@ class Interfaz extends JFrame implements ActionListener{
 	
 	JMenuBar menuBar;
 	JMenu altas, bajas, cambios, consultas;
-	JMenuItem menuItemAltas;
-	JInternalFrame recordAltas;
+	JMenuItem menuItemAltas, menuItemBajas, menuItemCambios, menuItemConsultas;
+	JInternalFrame recordAltas, recordBajas, recordCambios, recordConsultas;
 	
 	JComboBox<String> comboEdad, comboCarrera, comboSemestre;
 	JButton agregar, borrar, cancelar;
@@ -47,8 +48,37 @@ class Interfaz extends JFrame implements ActionListener{
 				}
 			});	
 		bajas = new JMenu("Bajas");
+			menuItemBajas= new JMenuItem("eliminar");
+			bajas.add(menuItemBajas);
+			menuItemBajas.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					recordBajas.setVisible(true);
+					
+				}
+			});	
+		
+		
 		cambios = new JMenu("Cambios");
+			menuItemCambios= new JMenuItem("modificar");
+			consultas.add(menuItemCambios);
+			menuItemCambios.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					recordCambios.setVisible(true);
+					
+				}
+			});
 		consultas = new JMenu("Consultas");
+			menuItemCambios= new JMenuItem("buscar");
+			consultas.add(menuItemConsultas);
+			menuItemConsultas.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					recordConsultas.setVisible(true);
+					
+				}
+			});
 		menuBar.add(altas);
 		menuBar.add(bajas);
 		menuBar.add(cambios);
@@ -138,8 +168,8 @@ class Interfaz extends JFrame implements ActionListener{
 		recordAltas.add(header);
 		recordAltas.add(table);
 		
-		recordAltas.add(panelAltas);
 		recordAltas.add(panelAltasTitulo);
+		recordAltas.add(panelAltas);
 		dp.add(recordAltas);
 		dp.setBounds(0, 0, 567, 425);
 		add(dp);
@@ -153,7 +183,20 @@ class Interfaz extends JFrame implements ActionListener{
 					(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), comboCarrera.getSelectedItem().toString());
 			
 			AlumnoDAO aDAO = new AlumnoDAO();
-			System.out.println(aDAO.insertarRegistro(a)?"EXITO":"Me cambio de carrera");
+			//System.out.println(aDAO.insertarRegistro(a)?"EXITO":"Me cambio de carrera");
+			//MODIFICAR REGISTRO
+			//System.out.println(aDAO.modificarRegistro(a)?"EXITO":"Me cambio de carrera");
+			//ELIMINAR REGISTRO
+			//System.out.println(aDAO.eliminarRegistro(numControl.getText())?"EXITO":"Me cambio de carrera");
+			//BUSCAR FILTRO
+			//System.out.println(aDAO.buscarAlumnos("")?"EXITO":"Me cambio de carrera")
+			
+			ArrayList<Alumno> xd = aDAO.buscarAlumnos("");
+			for (int i=0;i<xd.size();i++) {
+			      System.out.println(xd.get(i));
+			    }
+			System.out.println();
+			
 		}
 		if (arg0.getSource()==borrar) {
 			metodoQueRestableceTODO(numControl,nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);
@@ -179,10 +222,9 @@ class Interfaz extends JFrame implements ActionListener{
 			}
 		}
 		
-			
-		
-		
 	}
+	
+	
 	 
 }
 
