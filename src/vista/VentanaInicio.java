@@ -58,6 +58,9 @@ class Interfaz extends JFrame implements ActionListener{
 		comboCarrera.addItem("ADMON");
 		comboCarrera.addItem("IIA");
 		comboCarrera.addItem("LEC");
+		comboEdad.setSelectedIndex(-1);
+		comboSemestre.setSelectedIndex(-1);
+		comboCarrera.setSelectedIndex(-1);
 		
 		lblNumeroDeControl=new JLabel("NUMERO DE CONTROL:");
 		lblNombres=new JLabel("NOMBRE:");
@@ -73,8 +76,7 @@ class Interfaz extends JFrame implements ActionListener{
 		interaccion.addActionListener(this);
 		cancelar = new JButton("CANCELAR");
 		cancelar.addActionListener(this);
-		File 
-		buscar = new JButton();
+		busqueda = new JButton();
 		
 		cbTodos=new JCheckBox();//==============================================================Checkboxes=================================================
 		cbTodos.addItemListener(new ItemListener() {
@@ -130,6 +132,7 @@ class Interfaz extends JFrame implements ActionListener{
 				if(cbNumeroDeControl.isSelected()) {
 					numControl.setEditable(true);
 	            }else {
+	            	numControl.setText("");
 	            	numControl.setEditable(false);
 	            }
 			}
@@ -141,6 +144,7 @@ class Interfaz extends JFrame implements ActionListener{
 				if(cbNombres.isSelected()) {
 					nombre.setEditable(true);
 	            }else {
+	            	nombre.setText("");
 	            	nombre.setEditable(false);
 	            }
 			}
@@ -152,6 +156,7 @@ class Interfaz extends JFrame implements ActionListener{
 				if(cbApellidoPaterno.isSelected()) {
 					primerAp.setEditable(true);
 	            }else {
+	            	primerAp.setText("");
 	            	primerAp.setEditable(false);
 	            }
 			}
@@ -163,6 +168,7 @@ class Interfaz extends JFrame implements ActionListener{
 				if(cbApellidoMaterno.isSelected()) {
 					segundoAp.setEditable(true);
 	            }else {
+	            	segundoAp.setText("");
 	            	segundoAp.setEditable(false);
 	            }
 			}
@@ -174,6 +180,7 @@ class Interfaz extends JFrame implements ActionListener{
 				if(cbEdad.isSelected()) {
 					comboEdad.setEnabled(true);
 	            }else {
+	            	comboEdad.setSelectedIndex(-1);
 	            	comboEdad.setEnabled(false);
 	            }
 			}
@@ -185,6 +192,7 @@ class Interfaz extends JFrame implements ActionListener{
 				if(cbNombres.isSelected()) {
 					comboSemestre.setEnabled(true);
 	            }else {
+	            	comboSemestre.setSelectedIndex(-1);
 	            	comboSemestre.setEnabled(false);
 	            }
 			}
@@ -196,6 +204,7 @@ class Interfaz extends JFrame implements ActionListener{
 				if(cbCarrera.isSelected()) {
 					comboCarrera.setEnabled(true);
 	            }else {
+	            	comboCarrera.setSelectedIndex(-1);
 	            	comboCarrera.setEnabled(false);
 	            }
 			}
@@ -539,10 +548,58 @@ class Interfaz extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource()==interaccion) {
-			Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
-					(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), comboCarrera.getSelectedItem().toString());
-			
 			AlumnoDAO aDAO = new AlumnoDAO();
+			if (recordAltas.isVisible()) {
+				Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
+						(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), comboCarrera.getSelectedItem().toString());
+				if (aDAO.insertarRegistro(a)) {
+					JOptionPane.showMessageDialog(null, "Alumno agregado exitosamente");
+				}else {
+					JOptionPane.showMessageDialog(null, "No se pudo agregar al alumno");
+				}
+			}else if(recordBajas.isVisible()) {
+				if (aDAO.eliminarRegistro(numControl.getText())) {
+					JOptionPane.showMessageDialog(null, "Alumno eliminado exitosamente");
+				}else {
+					JOptionPane.showMessageDialog(null, "No se pudo eliminar al alumno");
+				}
+				
+			}else if (recordCambios.isVisible()) {
+				
+				Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
+						(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), 
+						comboCarrera.getSelectedIndex()!=-1?comboCarrera.getSelectedItem().toString():"");
+				boolean flags[]=new boolean[6];
+				flags[0]=!nombre.getText().equals("");
+				flags[1]=!primerAp.getText().equals("");
+				flags[2]=!segundoAp.getText().equals("");
+				flags[3]=comboEdad.getSelectedIndex()!=-1;
+				flags[4]=comboSemestre.getSelectedIndex()!=-1;
+				flags[5]=comboCarrera.getSelectedIndex()!=-1;
+				
+				if (aDAO.modificarRegistro(a, flags)) {
+					JOptionPane.showMessageDialog(null, "Datos de Alumno modificados exitosamente");
+				}else {
+					JOptionPane.showMessageDialog(null, "No se pudieron modificar los datos del alumno");
+				}
+			}else if(recordConsultas.isVisible()) {
+				ArrayList<Alumno> listaAlumnos = aDAO.buscarAlumnos("PARAMETROS");
+				if (listaAlumnos.size()!=0) {
+					JOptionPane.showMessageDialog(null, "Se encontraron registros que coinciden");
+				}else {
+					JOptionPane.showMessageDialog(null, "No se encontraron coincidencias");
+				}
+			}
+			
+			
+			
+			
+			
+			
+			//Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
+			//		(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), comboCarrera.getSelectedItem().toString());
+			
+			//AlumnoDAO aDAO = new AlumnoDAO();
 			//System.out.println(aDAO.insertarRegistro(a)?"EXITO":"Me cambio de carrera");
 			//MODIFICAR REGISTRO
 			//System.out.println(aDAO.modificarRegistro(a)?"EXITO":"Me cambio de carrera");

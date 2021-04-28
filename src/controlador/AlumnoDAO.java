@@ -39,16 +39,56 @@ public class AlumnoDAO {
 		return resultado;
 	}
 	
-	public boolean modificarRegistro(Alumno a) {
+	public boolean modificarRegistro(Alumno a, boolean flags[]) {
 		boolean resultado = false;
+		int primero=0;
 		//UPDATE alumnos SET nombre
-		String sql = "UPDATE alumnos SET nombre='"+a.getNombre()+
-				"', PrimerAp='"+a.getPrimerAp()+
-				"', SegundoAp='"+a.getSegundoAp()+
-				"', Edad = "+a.getEdad()+
-                ", semestre = "+a.getSemestre()+
-                ", Carrera = '"+a.getCarrera()+
-                "'WHERE NumControl = '"+a.getNumControl()+"'";
+		
+		String sql = "UPDATE alumnos SET ";
+		
+		if (flags[0]) {
+			if (primero!=0) {
+				sql+=", ";
+			}
+			primero+=1;
+			sql+=("Nombre='"+a.getNombre()+"'");
+		}
+		if (flags[1]) {
+			if (primero!=0) {
+				sql+=", ";
+			}
+			primero+=1;
+			sql+=("PrimerAp='"+a.getPrimerAp()+"'");
+		}
+		if (flags[2]) {
+			if (primero!=0) {
+				sql+=", ";
+			}
+			primero+=1;
+			sql+=("SegundoAp='"+a.getSegundoAp()+"'");
+		}
+		if (flags[3]) {
+			if (primero!=0) {
+				sql+=", ";
+			}
+			primero+=1;
+			sql+=("Edad="+a.getEdad());
+		}
+		if (flags[4]) {
+			if (primero!=0) {
+				sql+=", ";
+			}
+			primero+=1;
+			sql+=("Semestre="+a.getSemestre());
+		}
+		if (flags[5]) {
+			if (primero!=0) {
+				sql+=", ";
+			}
+			primero+=1;
+			sql+=("Carrera='"+a.getCarrera()+"'");
+		}
+		sql+=("WHERE NumControl = '"+a.getNumControl()+"'");
 		
 		resultado = conexion.ejecutarInstruccion(sql);
 		
