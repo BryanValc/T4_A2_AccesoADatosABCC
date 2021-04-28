@@ -319,7 +319,7 @@ class Interfaz extends JFrame implements ActionListener{
 			JScrollPane sp = new JScrollPane(table);
 			sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			header.setBounds(20,0,525,0);
-			sp.setBounds(20,0,525,85);
+			sp.setBounds(20,0,525,100);
 			
 			lista.add(header);
 			lista.add(sp);
@@ -366,8 +366,6 @@ class Interfaz extends JFrame implements ActionListener{
 					metodoMagico(interaccion, 380, 46, 90, 18, panelAltas);
 					metodoMagico(cancelar, 375, 153, 100, 18, panelAltas);
 					
-					
-					
 				}
 			});	
 		bajas = new JMenu("Bajas");
@@ -411,11 +409,6 @@ class Interfaz extends JFrame implements ActionListener{
 					interaccion.setText("ELIMINAR");
 					metodoMagico(interaccion, 380, 105, 90, 18, panelBajas);
 					metodoMagico(cancelar, 375, 153, 100, 18, panelBajas);
-					
-					metodoMagico(header,20,281,525,20, panelBajas);
-					metodoMagico(table,20,301,525,75, panelBajas);
-					recordBajas.add(header);
-					recordBajas.add(table);
 				}
 			});	
 		cambios = new JMenu("Cambios");
@@ -457,11 +450,6 @@ class Interfaz extends JFrame implements ActionListener{
 					interaccion.setText("GUARDAR CAMBIOS");
 					metodoMagico(interaccion, 380, 105, 160, 18, panelCambios);
 					metodoMagico(cancelar, 375, 153, 165, 18, panelCambios);
-					
-					metodoMagico(header,20,281,525,20, panelCambios);
-					metodoMagico(table,20,301,525,75, panelCambios);
-					recordCambios.add(header);
-					recordCambios.add(table);
 				}
 			});
 		consultas = new JMenu("Consultas");
@@ -523,11 +511,6 @@ class Interfaz extends JFrame implements ActionListener{
 					//interaccion.setText("GUARDAR CAMBIOS");
 					//metodoMagico(interaccion, 380, 105, 110, 18, panelBajas);
 					metodoMagico(cancelar, 375, 153, 100, 18, panelConsultas);
-					
-					metodoMagico(header,20,281,525,20, panelConsultas);
-					metodoMagico(table,20,301,525,75, panelConsultas);
-					recordConsultas.add(header);
-					recordConsultas.add(table);
 				}
 			});
 		menuBar.add(altas);
