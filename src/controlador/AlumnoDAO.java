@@ -98,15 +98,9 @@ public class AlumnoDAO {
 	public ArrayList<Alumno> buscarAlumnos(String filtro){
 		ArrayList<Alumno> listaAlumnos = new ArrayList<Alumno>();
 		
-		String sql;
 		ResultSet rs;
 		
-		if (filtro.equals("")) {
-			sql = "SELECT * FROM Alumnos";
-		}else {
-			sql = "SELECT * FROM Alumnos WHERE "+filtro;
-		}
-		rs = conexion.ejecutarConsulta(sql);
+		rs = conexion.ejecutarConsulta(filtro);
 		//SELECT * FROM Alumnos WHERE prod_name = 'Microsoft 10-20 Keyboard' AND prod_price < 30;
 		try {
 			if (rs.next()) {

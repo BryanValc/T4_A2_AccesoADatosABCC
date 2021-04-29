@@ -10,6 +10,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.security.AllPermission;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
@@ -33,9 +34,12 @@ class Interfaz extends JFrame implements ActionListener{
 	JCheckBox cbTodos,cbNumeroDeControl,cbNombres,cbApellidoPaterno,cbApellidoMaterno,cbEdad,cbSemestre,cbCarrera;
 	Icon iconoBusqueda = new ImageIcon("./archivos/iconoBusqueda.PNG");//imagen
 	
-	JTable table=new JTable();
+	JTable tabla;
+	JScrollPane sp = new JScrollPane();
+	
+	/*JTable table=new JTable();
 	JTableHeader header = table.getTableHeader();
-	JScrollPane sp = new JScrollPane(table);
+	*/
 	
 	public Interfaz() {
 		getContentPane().setLayout(null);
@@ -299,37 +303,6 @@ class Interfaz extends JFrame implements ActionListener{
 			lista.setSize(567,137);
 			lista.setLocation(0, 290);
 			lista.setTitle("Lista");
-			
-			AlumnoDAO aDAO = new AlumnoDAO();//==============Tabla================
-			ArrayList<Alumno> alumnos = aDAO.buscarAlumnos("");
-			String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};
-			String values [][] = new String[alumnos.size()][7];
-			
-			for (int i=0;i<alumnos.size();i++) {
-				Alumno a = alumnos.get(i);
-				values[i][0]=a.getNumControl();
-				values[i][1]=a.getNombre();
-				values[i][2]=a.getPrimerAp();
-				values[i][3]=a.getSegundoAp();
-				values[i][4]=Byte.toString(a.getEdad());
-				values[i][5]=Byte.toString(a.getSemestre());
-				values[i][6]=a.getCarrera();
-			    }
-			
-			DefaultTableModel mod = new DefaultTableModel();
-			mod=new DefaultTableModel(values,atribs);
-			table=new JTable(mod);
-			header = table.getTableHeader();
-			
-			sp = new JScrollPane(table);
-			sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			header.setBounds(20,0,525,0);
-			sp.setBounds(20,0,525,100);
-			
-			lista.add(header);
-			lista.add(sp);
-			lista.setVisible(true);
-			
 		
 		menuBar = new JMenuBar();
 		altas = new JMenu("Altas");
@@ -338,6 +311,9 @@ class Interfaz extends JFrame implements ActionListener{
 			menuItemAltas.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					
+					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");
+					
 					recordAltas.setVisible(true);
 					recordBajas.setVisible(false);
 					recordCambios.setVisible(false);
@@ -381,6 +357,9 @@ class Interfaz extends JFrame implements ActionListener{
 			menuItemBajas.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					
+					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");
+					
 					recordAltas.setVisible(false);
 					recordBajas.setVisible(true);
 					recordCambios.setVisible(false);
@@ -425,6 +404,9 @@ class Interfaz extends JFrame implements ActionListener{
 			menuItemCambios.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					
+					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");
+					
 					recordAltas.setVisible(false);
 					recordBajas.setVisible(false);
 					recordCambios.setVisible(true);
@@ -467,6 +449,9 @@ class Interfaz extends JFrame implements ActionListener{
 			menuItemConsultas.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					
+					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");
+					
 					recordAltas.setVisible(false);
 					recordBajas.setVisible(false);
 					recordCambios.setVisible(false);
@@ -548,6 +533,8 @@ class Interfaz extends JFrame implements ActionListener{
 		
 	}
 	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource()==interaccion) {
@@ -610,93 +597,15 @@ class Interfaz extends JFrame implements ActionListener{
 				}
 				
 			}
-			
+			actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");
 		}
 		if (arg0.getSource()==busqueda) {
 			
+			String sql = generadorConsulta();
 			AlumnoDAO aDAO = new AlumnoDAO();
-			String sql = "";
-			boolean primero=true;
 			
-			if (!numControl.getText().equals("")) {
-				if (!primero) {sql+=" AND ";}
-				primero=false;
-				sql+=("NumControl='"+numControl.getText()+"'");
-			}
-			if (!recordCambios.isVisible()) {
-				if (!nombre.getText().equals("")) {
-					if (!primero) {sql+=" AND ";}
-					primero=false;
-					sql+=("Nombre='"+nombre.getText()+"'");
-				}
-				if (!primerAp.getText().equals("")) {
-					if (!primero) {sql+=" AND ";}
-					primero=false;
-					sql+=("PrimerAp='"+primerAp.getText()+"'");
-				}
-				if (!segundoAp.getText().equals("")) {
-					if (!primero) {sql+=" AND ";}
-					primero=false;
-					sql+=("SegundoAp='"+segundoAp.getText()+"'");
-				}
-				if (comboEdad.getSelectedIndex()!=-1) {
-					if (!primero) {sql+=" AND ";}
-					primero=false;
-					sql+=("Edad="+comboEdad.getSelectedIndex());
-				}
-				if (comboSemestre.getSelectedIndex()!=-1) {
-					if (!primero) {sql+=" AND ";}
-					primero=false;
-					sql+=("Semestre="+comboSemestre.getSelectedItem());
-				}
-				if (comboCarrera.getSelectedIndex()!=-1) {
-					if (!primero) {sql+=" AND ";}
-					primero=false;
-					sql+=("Carrera='"+comboCarrera.getSelectedItem()+"'");
-				}
-			}
-			
+			actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos",sql);
 			ArrayList<Alumno> alumnos = aDAO.buscarAlumnos(sql);
-			String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};
-			String values [][] = new String[alumnos.size()][7];
-			
-			for (int i=0;i<alumnos.size();i++) {
-				Alumno a = alumnos.get(i);
-				values[i][0]=a.getNumControl();
-				values[i][1]=a.getNombre();
-				values[i][2]=a.getPrimerAp();
-				values[i][3]=a.getSegundoAp();
-				values[i][4]=Byte.toString(a.getEdad());
-				values[i][5]=Byte.toString(a.getSemestre());
-				values[i][6]=a.getCarrera();
-			    }
-			
-			DefaultTableModel mod = new DefaultTableModel();
-			mod=new DefaultTableModel(values,atribs);
-			table=new JTable(mod);
-			header = table.getTableHeader();
-			
-			sp = new JScrollPane(table);
-			sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			header.setBounds(20,0,525,0);
-			sp.setBounds(20,0,525,100);
-			
-			lista.add(header);
-			lista.add(sp);
-			lista.setVisible(true);
-			
-			if (recordBajas.isVisible()||recordCambios.isVisible()) {
-				
-				Alumno alumno = alumnos.get(0);
-				numControl.setText(alumno.getNumControl());
-				nombre.setText(alumno.getNombre());
-				primerAp.setText(alumno.getPrimerAp());
-				segundoAp.setText(alumno.getSegundoAp());
-				comboEdad.setSelectedItem(Byte.toString(alumno.getEdad()));
-				comboSemestre.setSelectedItem(Byte.toString(alumno.getSemestre()));
-				comboCarrera.setSelectedItem(alumno.getCarrera());
-				
-			}
 			
 		}
 		if (arg0.getSource()==borrar) {
@@ -726,6 +635,86 @@ class Interfaz extends JFrame implements ActionListener{
 			}
 		}
 		
+	}
+	
+	public void actualizarTabla(String driver, String url, String sql) {
+		ResultSetTableModel modeloDatos =null;
+		try {
+			modeloDatos = new ResultSetTableModel(driver,url,sql);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+
+		lista.remove(sp);
+		tabla = new JTable(modeloDatos);
+		tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		    	obtenerRegistroTabla();
+		    }
+		});
+		sp = new JScrollPane(tabla);
+		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		sp.setBounds(20,0,525,100);
+		lista.add(sp);
+		lista.setVisible(true);
+	}
+	
+	public void obtenerRegistroTabla() {
+		numControl.setText((String) tabla.getValueAt(tabla.getSelectedRow(),0));
+		nombre.setText((String) tabla.getValueAt(tabla.getSelectedRow(),1));
+		primerAp.setText((String) tabla.getValueAt(tabla.getSelectedRow(),2));
+		segundoAp.setText((String) tabla.getValueAt(tabla.getSelectedRow(),3));
+		comboEdad.setSelectedIndex((int)(tabla.getValueAt(tabla.getSelectedRow(),4))-1);
+		comboSemestre.setSelectedIndex((int)(tabla.getValueAt(tabla.getSelectedRow(),5))-1);
+		comboCarrera.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(),6));
+	}
+	
+	public String generadorConsulta() {
+		AlumnoDAO aDAO = new AlumnoDAO();
+		String sql = "SELECT * FROM Alumnos ";
+		boolean primero=true;
+		
+		if (!numControl.getText().equals("")) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("NumControl='"+numControl.getText()+"'");
+		}
+		if (!nombre.getText().equals("")) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("Nombre='"+nombre.getText()+"'");
+		}
+		if (!primerAp.getText().equals("")) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("PrimerAp='"+primerAp.getText()+"'");
+		}
+		if (!segundoAp.getText().equals("")) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("SegundoAp='"+segundoAp.getText()+"'");
+		}
+		if (comboEdad.getSelectedIndex()!=-1) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("Edad="+comboEdad.getSelectedItem());
+		}
+		if (comboSemestre.getSelectedIndex()!=-1) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("Semestre="+comboSemestre.getSelectedItem());
+		}
+		if (comboCarrera.getSelectedIndex()!=-1) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("Carrera='"+comboCarrera.getSelectedItem()+"'");
+		}
+		
+		return sql;
 	}
 	
 }
