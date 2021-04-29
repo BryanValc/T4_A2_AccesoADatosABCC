@@ -31,6 +31,12 @@ class Interfaz extends JFrame implements ActionListener{
 	JButton interaccion, borrar, cancelar, busqueda;
 	JTextField numControl, nombre, primerAp, segundoAp;
 	JCheckBox cbTodos,cbNumeroDeControl,cbNombres,cbApellidoPaterno,cbApellidoMaterno,cbEdad,cbSemestre,cbCarrera;
+	Icon iconoBusqueda = new ImageIcon("./archivos/iconoBusqueda.PNG");//imagen
+	
+	JTable table=new JTable();
+	JTableHeader header = table.getTableHeader();
+	JScrollPane sp = new JScrollPane(table);
+	
 	public Interfaz() {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -75,7 +81,8 @@ class Interfaz extends JFrame implements ActionListener{
 		interaccion.addActionListener(this);
 		cancelar = new JButton("CANCELAR");
 		cancelar.addActionListener(this);
-		busqueda = new JButton();
+		busqueda = new JButton(iconoBusqueda);
+		busqueda.addActionListener(this);
 		
 		cbTodos=new JCheckBox();//==============================================================Checkboxes=================================================
 		cbTodos.addItemListener(new ItemListener() {
@@ -289,16 +296,14 @@ class Interfaz extends JFrame implements ActionListener{
 		lista = new JInternalFrame();//========================================Frame Lista==================================================================
 			lista.getContentPane().setLayout(null);
 			lista.setDefaultCloseOperation(HIDE_ON_CLOSE);
-			lista.setSize(567,135);
+			lista.setSize(567,137);
 			lista.setLocation(0, 290);
 			lista.setTitle("Lista");
-		
 			
-			AlumnoDAO aDAO = new AlumnoDAO();
+			AlumnoDAO aDAO = new AlumnoDAO();//==============Tabla================
 			ArrayList<Alumno> alumnos = aDAO.buscarAlumnos("");
-			String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};//==============Tabla================
+			String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};
 			String values [][] = new String[alumnos.size()][7];
-		
 			
 			for (int i=0;i<alumnos.size();i++) {
 				Alumno a = alumnos.get(i);
@@ -313,10 +318,10 @@ class Interfaz extends JFrame implements ActionListener{
 			
 			DefaultTableModel mod = new DefaultTableModel();
 			mod=new DefaultTableModel(values,atribs);
-			JTable table=new JTable(mod);
-			JTableHeader header = table.getTableHeader();
+			table=new JTable(mod);
+			header = table.getTableHeader();
 			
-			JScrollPane sp = new JScrollPane(table);
+			sp = new JScrollPane(table);
 			sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			header.setBounds(20,0,525,0);
 			sp.setBounds(20,0,525,100);
@@ -324,6 +329,7 @@ class Interfaz extends JFrame implements ActionListener{
 			lista.add(header);
 			lista.add(sp);
 			lista.setVisible(true);
+			
 		
 		menuBar = new JMenuBar();
 		altas = new JMenu("Altas");
@@ -366,6 +372,7 @@ class Interfaz extends JFrame implements ActionListener{
 					metodoMagico(interaccion, 380, 46, 90, 18, panelAltas);
 					metodoMagico(cancelar, 375, 153, 100, 18, panelAltas);
 					
+					
 				}
 			});	
 		bajas = new JMenu("Bajas");
@@ -405,6 +412,7 @@ class Interfaz extends JFrame implements ActionListener{
 					metodoMagico(comboSemestre, 216, 165, 144, 16, panelBajas);
 					metodoMagico(comboCarrera, 216, 181, 144, 16, panelBajas);
 					
+					metodoMagico(busqueda, 380, 11, 84, 30, panelBajas);
 					metodoMagico(borrar, 380, 46, 90, 18, panelBajas);
 					interaccion.setText("ELIMINAR");
 					metodoMagico(interaccion, 380, 105, 90, 18, panelBajas);
@@ -446,6 +454,7 @@ class Interfaz extends JFrame implements ActionListener{
 					metodoMagico(comboSemestre, 216, 165, 144, 16, panelCambios);
 					metodoMagico(comboCarrera, 216, 181, 144, 16, panelCambios);
 					
+					metodoMagico(busqueda, 380, 11, 84, 30, panelCambios);
 					metodoMagico(borrar, 380, 46, 90, 18, panelCambios);
 					interaccion.setText("GUARDAR CAMBIOS");
 					metodoMagico(interaccion, 380, 105, 160, 18, panelCambios);
@@ -507,6 +516,7 @@ class Interfaz extends JFrame implements ActionListener{
 					metodoMagico(comboSemestre, 216, 165, 144, 16, panelConsultas);
 					metodoMagico(comboCarrera, 216, 181, 144, 16, panelConsultas);
 					
+					metodoMagico(busqueda, 380, 11, 84, 30, panelConsultas);
 					metodoMagico(borrar, 380, 46, 90, 18, panelConsultas);
 					//interaccion.setText("GUARDAR CAMBIOS");
 					//metodoMagico(interaccion, 380, 105, 110, 18, panelBajas);
@@ -601,23 +611,92 @@ class Interfaz extends JFrame implements ActionListener{
 				
 			}
 			
-			//Alumno a = new Alumno(numControl.getText(), nombre.getText(), primerAp.getText(), segundoAp.getText(),
-			//		(byte)(comboEdad.getSelectedIndex()+1), (byte)(comboSemestre.getSelectedIndex()+1), comboCarrera.getSelectedItem().toString());
+		}
+		if (arg0.getSource()==busqueda) {
 			
-			//AlumnoDAO aDAO = new AlumnoDAO();
-			//System.out.println(aDAO.insertarRegistro(a)?"EXITO":"Me cambio de carrera");
-			//MODIFICAR REGISTRO
-			//System.out.println(aDAO.modificarRegistro(a)?"EXITO":"Me cambio de carrera");
-			//ELIMINAR REGISTRO
-			//System.out.println(aDAO.eliminarRegistro(numControl.getText())?"EXITO":"Me cambio de carrera");
-			//BUSCAR FILTRO
-			//System.out.println(aDAO.buscarAlumnos("")?"EXITO":"Me cambio de carrera")
+			AlumnoDAO aDAO = new AlumnoDAO();
+			String sql = "";
+			boolean primero=true;
 			
-			/*ArrayList<Alumno> xd = aDAO.buscarAlumnos("");
-			for (int i=0;i<xd.size();i++) {
-			      System.out.println(xd.get(i));
+			if (!numControl.getText().equals("")) {
+				if (!primero) {sql+=" AND ";}
+				primero=false;
+				sql+=("NumControl='"+numControl.getText()+"'");
+			}
+			if (!recordCambios.isVisible()) {
+				if (!nombre.getText().equals("")) {
+					if (!primero) {sql+=" AND ";}
+					primero=false;
+					sql+=("Nombre='"+nombre.getText()+"'");
+				}
+				if (!primerAp.getText().equals("")) {
+					if (!primero) {sql+=" AND ";}
+					primero=false;
+					sql+=("PrimerAp='"+primerAp.getText()+"'");
+				}
+				if (!segundoAp.getText().equals("")) {
+					if (!primero) {sql+=" AND ";}
+					primero=false;
+					sql+=("SegundoAp='"+segundoAp.getText()+"'");
+				}
+				if (comboEdad.getSelectedIndex()!=-1) {
+					if (!primero) {sql+=" AND ";}
+					primero=false;
+					sql+=("Edad="+comboEdad.getSelectedIndex());
+				}
+				if (comboSemestre.getSelectedIndex()!=-1) {
+					if (!primero) {sql+=" AND ";}
+					primero=false;
+					sql+=("Semestre="+comboSemestre.getSelectedItem());
+				}
+				if (comboCarrera.getSelectedIndex()!=-1) {
+					if (!primero) {sql+=" AND ";}
+					primero=false;
+					sql+=("Carrera='"+comboCarrera.getSelectedItem()+"'");
+				}
+			}
+			
+			ArrayList<Alumno> alumnos = aDAO.buscarAlumnos(sql);
+			String atribs[]={"NO. DE CONTROL", "NOMBRE","AP. PATERNO","AP. MATERNO","EDAD","SEMESTRE","CARRERA"};
+			String values [][] = new String[alumnos.size()][7];
+			
+			for (int i=0;i<alumnos.size();i++) {
+				Alumno a = alumnos.get(i);
+				values[i][0]=a.getNumControl();
+				values[i][1]=a.getNombre();
+				values[i][2]=a.getPrimerAp();
+				values[i][3]=a.getSegundoAp();
+				values[i][4]=Byte.toString(a.getEdad());
+				values[i][5]=Byte.toString(a.getSemestre());
+				values[i][6]=a.getCarrera();
 			    }
-			System.out.println();*/
+			
+			DefaultTableModel mod = new DefaultTableModel();
+			mod=new DefaultTableModel(values,atribs);
+			table=new JTable(mod);
+			header = table.getTableHeader();
+			
+			sp = new JScrollPane(table);
+			sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			header.setBounds(20,0,525,0);
+			sp.setBounds(20,0,525,100);
+			
+			lista.add(header);
+			lista.add(sp);
+			lista.setVisible(true);
+			
+			if (recordBajas.isVisible()||recordCambios.isVisible()) {
+				
+				Alumno alumno = alumnos.get(0);
+				numControl.setText(alumno.getNumControl());
+				nombre.setText(alumno.getNombre());
+				primerAp.setText(alumno.getPrimerAp());
+				segundoAp.setText(alumno.getSegundoAp());
+				comboEdad.setSelectedItem(Byte.toString(alumno.getEdad()));
+				comboSemestre.setSelectedItem(Byte.toString(alumno.getSemestre()));
+				comboCarrera.setSelectedItem(alumno.getCarrera());
+				
+			}
 			
 		}
 		if (arg0.getSource()==borrar) {
