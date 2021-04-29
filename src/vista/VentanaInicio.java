@@ -37,9 +37,59 @@ class Interfaz extends JFrame implements ActionListener{
 	JTable tabla;
 	JScrollPane sp = new JScrollPane();
 	
-	public void defaultFrame() {
-		
+	public JPanel[] defPanel(JInternalFrame frame,String encabezado,String titulo,Color color) {
+		frame.getContentPane().setLayout(null);
+		frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		frame.setSize(567,290);
+		frame.setTitle(encabezado);
+		JPanel panelTitulo = new JPanel();//Panel titulo
+		panelTitulo.setLayout(null);
+		panelTitulo.setBackground(color);
+		panelTitulo.setBounds(0, 0, 567, 50);
+		JLabel lblTitulo = new JLabel(titulo);
+		lblTitulo.setFont(new Font("Calibri", Font.BOLD, 20));
+		lblTitulo.setForeground(Color.WHITE);
+		metodoMagico(lblTitulo, 30, 20, 290, 20, panelTitulo);
+		JPanel panel = new JPanel();//Panel
+		panel.setLayout(null);
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(0, 50, 567, 425);
+		JPanel retorno[]=new JPanel[2];
+		retorno[0]=panelTitulo;
+		retorno[1]=panel;
+		return retorno;
 	};
+	
+	public void defPosicionamiento(JPanel panel, boolean busq, boolean interact, String boton) {
+		metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panel);//Labels
+		metodoMagico(lblNombres, 90, 60, 130, 20, panel);
+		metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panel);
+		metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panel);
+		metodoMagico(lblEdad, 90, 129, 130, 20, panel);
+		metodoMagico(lblSemestre, 90, 159, 130, 20, panel);
+		metodoMagico(lblCarrera, 90, 177, 130, 20, panel);
+		
+		metodoMagico(numControl, 226, 40, 134, 17, panel);//Posicionamiento
+		metodoMagico(nombre, 172, 63, 187, 17, panel);
+		metodoMagico(primerAp, 216, 86, 144, 17, panel);
+		metodoMagico(segundoAp, 216, 109, 144, 17, panel);
+		metodoMagico(comboEdad, 216, 137, 40, 16, panel);
+		metodoMagico(comboSemestre, 216, 165, 144, 16, panel);
+		metodoMagico(comboCarrera, 216, 181, 144, 16, panel);
+		
+		metodoMagico(borrar, 380, 46, 90, 18, panel);
+		metodoMagico(cancelar, 375, 153, 100, 18, panel);
+		if (busq) {metodoMagico(busqueda, 380, 11, 84, 30, panel);}
+		if (interact) {
+			interaccion.setText(boton);
+			if (boton.contains("GUARDAR CAMBIOS")) {
+				metodoMagico(interaccion, 380, 105, 160, 18, panel);
+			}else {
+				metodoMagico(interaccion, 380, 105, 90, 18, panel);
+			}
+			
+		}
+	}
 	
 	public Interfaz() {
 		getContentPane().setLayout(null);
@@ -190,79 +240,16 @@ class Interfaz extends JFrame implements ActionListener{
 		
 		JDesktopPane dp = new JDesktopPane();
 		
-		recordAltas = new JInternalFrame();//==============================================Frame Altas====================================================================
-			recordAltas.getContentPane().setLayout(null);
-			recordAltas.setDefaultCloseOperation(HIDE_ON_CLOSE);
-			recordAltas.setSize(567,290);
-			recordAltas.setTitle("Altas Alumnos");
-		JPanel panelAltasTitulo = new JPanel();//Panel titulo Altas
-			panelAltasTitulo.setLayout(null);
-			panelAltasTitulo.setBackground(Color.GREEN);
-			panelAltasTitulo.setBounds(0, 0, 567, 50);
-		JLabel tituloAltas = new JLabel("ALTAS ALUMNOS");
-			tituloAltas.setFont(new Font("Calibri", Font.BOLD, 20));
-			tituloAltas.setForeground(Color.WHITE);
-			metodoMagico(tituloAltas, 30, 20, 220, 20, panelAltasTitulo);
-		JPanel panelAltas = new JPanel();//Panel Altas
-			panelAltas.setLayout(null);
-			panelAltas.setBackground(Color.WHITE);
-			panelAltas.setBounds(0, 50, 567, 425);
-		
-		recordBajas = new JInternalFrame();//==============================================Frame Bajas========================================================================
-			recordBajas.getContentPane().setLayout(null);
-			recordBajas.setDefaultCloseOperation(HIDE_ON_CLOSE);
-			recordBajas.setSize(567,290);
-			recordBajas.setTitle("Bajas Alumnos");
-		JPanel panelBajasTitulo = new JPanel();//Panel titulo Bajas
-			panelBajasTitulo.setLayout(null);
-			panelBajasTitulo.setBackground(Color.RED);
-			panelBajasTitulo.setBounds(0, 0, 567, 50);
-		JLabel tituloBajas = new JLabel("BAJAS ALUMNOS");
-			tituloBajas.setFont(new Font("Calibri", Font.BOLD, 20));
-			tituloBajas.setForeground(Color.WHITE);
-			metodoMagico(tituloBajas, 30, 20, 220, 20, panelBajasTitulo);
-		JPanel panelBajas = new JPanel();//Panel Bajas
-			panelBajas.setLayout(null);
-			panelBajas.setBackground(Color.WHITE);
-			panelBajas.setBounds(0, 50, 567, 425);
+		recordAltas = new JInternalFrame();//==============================================Frame Altas====================================================
+		JPanel panelesAltas[]= defPanel(recordAltas, "Altas Alumnos", "ALTAS ALUMNOS", Color.GREEN);
+		recordBajas = new JInternalFrame();//==============================================Frame Bajas====================================================
+		JPanel panelesBajas[]= defPanel(recordBajas, "Bajas Alumnos", "BAJAS ALUMNOS", Color.RED);
+		recordCambios = new JInternalFrame();//=========================================Frame Cambios=====================================================
+		JPanel panelesCambios[]= defPanel(recordCambios, "Modificaciones Alumnos", "MODIFICACIONES ALUMNOS", Color.ORANGE);
+		recordConsultas = new JInternalFrame();//========================================Frame Consultas==================================================
+		JPanel panelesConsultas[]= defPanel(recordConsultas, "Consultas Alumnos", "CONSULTAS ALUMNOS", Color.BLUE);
 			
-		recordCambios = new JInternalFrame();//=========================================Frame Cambios======================================================================
-			recordCambios.getContentPane().setLayout(null);
-			recordCambios.setDefaultCloseOperation(HIDE_ON_CLOSE);
-			recordCambios.setSize(567,290);
-			recordCambios.setTitle("Modificaciones Alumnos");
-		JPanel panelCambiosTitulo = new JPanel();//Panel titulo Cambios
-			panelCambiosTitulo.setLayout(null);
-			panelCambiosTitulo.setBackground(Color.ORANGE);
-			panelCambiosTitulo.setBounds(0, 0, 567, 50);
-		JLabel tituloCambios = new JLabel("MODIFICACIONES ALUMNOS");
-			tituloCambios.setFont(new Font("Calibri", Font.BOLD, 20));
-			tituloCambios.setForeground(Color.WHITE);
-			metodoMagico(tituloCambios, 30, 20, 270, 20, panelCambiosTitulo);
-		JPanel panelCambios = new JPanel();//Panel Cambios
-			panelCambios.setLayout(null);
-			panelCambios.setBackground(Color.WHITE);
-			panelCambios.setBounds(0, 50, 567, 425);
-		
-		recordConsultas = new JInternalFrame();//========================================Frame Consultas==================================================================
-			recordConsultas.getContentPane().setLayout(null);
-			recordConsultas.setDefaultCloseOperation(HIDE_ON_CLOSE);
-			recordConsultas.setSize(567,290);
-			recordConsultas.setTitle("Bajas Alumnos");
-		JPanel panelConsultasTitulo = new JPanel();//Panel titulo Consultas
-			panelConsultasTitulo.setLayout(null);
-			panelConsultasTitulo.setBackground(Color.BLUE);
-			panelConsultasTitulo.setBounds(0, 0, 567, 50);
-		JLabel tituloConsultas = new JLabel("CONSULTAS ALUMNOS");
-			tituloConsultas.setFont(new Font("Calibri", Font.BOLD, 20));
-			tituloConsultas.setForeground(Color.WHITE);
-			metodoMagico(tituloConsultas, 30, 20, 270, 20, panelConsultasTitulo);
-		JPanel panelConsultas = new JPanel();//Panel Consultas
-			panelConsultas.setLayout(null);
-			panelConsultas.setBackground(Color.WHITE);
-			panelConsultas.setBounds(0, 50, 567, 425);
-			
-		lista = new JInternalFrame();//========================================Frame Lista==================================================================
+		lista = new JInternalFrame();//========================================Frame Lista================================================================
 			lista.getContentPane().setLayout(null);
 			lista.setDefaultCloseOperation(HIDE_ON_CLOSE);
 			lista.setSize(567,137);
@@ -285,27 +272,28 @@ class Interfaz extends JFrame implements ActionListener{
 					recordConsultas.setVisible(false);
 					
 					setFormularioEnabled(true);
+					defPosicionamiento(panelesAltas[1], false, true, "AGREGAR");
 					
-					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelAltas);//Labels
-					metodoMagico(lblNombres, 90, 60, 130, 20, panelAltas);
-					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelAltas);
-					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelAltas);
-					metodoMagico(lblEdad, 90, 129, 130, 20, panelAltas);
-					metodoMagico(lblSemestre, 90, 159, 130, 20, panelAltas);
-					metodoMagico(lblCarrera, 90, 177, 130, 20, panelAltas);
+					/*metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelesAltas[1]);//Labels
+					metodoMagico(lblNombres, 90, 60, 130, 20, panelesAltas[1]);
+					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelesAltas[1]);
+					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelesAltas[1]);
+					metodoMagico(lblEdad, 90, 129, 130, 20, panelesAltas[1]);
+					metodoMagico(lblSemestre, 90, 159, 130, 20, panelesAltas[1]);
+					metodoMagico(lblCarrera, 90, 177, 130, 20, panelesAltas[1]);
 					
-					metodoMagico(numControl, 226, 40, 134, 17, panelAltas);//Posicionamiento
-					metodoMagico(nombre, 172, 63, 187, 17, panelAltas);
-					metodoMagico(primerAp, 216, 86, 144, 17, panelAltas);
-					metodoMagico(segundoAp, 216, 109, 144, 17, panelAltas);
-					metodoMagico(comboEdad, 216, 137, 40, 16, panelAltas);
-					metodoMagico(comboSemestre, 216, 165, 144, 16, panelAltas);
-					metodoMagico(comboCarrera, 216, 181, 144, 16, panelAltas);
+					metodoMagico(numControl, 226, 40, 134, 17, panelesAltas[1]);//Posicionamiento
+					metodoMagico(nombre, 172, 63, 187, 17, panelesAltas[1]);
+					metodoMagico(primerAp, 216, 86, 144, 17, panelesAltas[1]);
+					metodoMagico(segundoAp, 216, 109, 144, 17, panelesAltas[1]);
+					metodoMagico(comboEdad, 216, 137, 40, 16, panelesAltas[1]);
+					metodoMagico(comboSemestre, 216, 165, 144, 16, panelesAltas[1]);
+					metodoMagico(comboCarrera, 216, 181, 144, 16, panelesAltas[1]);
 					
-					metodoMagico(borrar, 380, 105, 90, 18, panelAltas);
+					metodoMagico(borrar, 380, 105, 90, 18, panelesAltas[1]);
 					interaccion.setText("AGREGAR");
-					metodoMagico(interaccion, 380, 46, 90, 18, panelAltas);
-					metodoMagico(cancelar, 375, 153, 100, 18, panelAltas);
+					metodoMagico(interaccion, 380, 46, 90, 18, panelesAltas[1]);
+					metodoMagico(cancelar, 375, 153, 100, 18, panelesAltas[1]);*/
 					
 					
 				}
@@ -328,28 +316,29 @@ class Interfaz extends JFrame implements ActionListener{
 					
 					setFormularioEnabled(false);
 					numControl.setEditable(true);
+					defPosicionamiento(panelesBajas[1], true, true, "ELIMINAR");
 					
-					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelBajas);//Labels
-					metodoMagico(lblNombres, 90, 60, 130, 20, panelBajas);
-					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelBajas);
-					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelBajas);
-					metodoMagico(lblEdad, 90, 129, 130, 20, panelBajas);
-					metodoMagico(lblSemestre, 90, 159, 130, 20, panelBajas);
-					metodoMagico(lblCarrera, 90, 177, 130, 20, panelBajas);
+					/*metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelesBajas[1]);//Labels
+					metodoMagico(lblNombres, 90, 60, 130, 20, panelesBajas[1]);
+					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelesBajas[1]);
+					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelesBajas[1]);
+					metodoMagico(lblEdad, 90, 129, 130, 20, panelesBajas[1]);
+					metodoMagico(lblSemestre, 90, 159, 130, 20, panelesBajas[1]);
+					metodoMagico(lblCarrera, 90, 177, 130, 20, panelesBajas[1]);
 					
-					metodoMagico(numControl, 226, 40, 134, 17, panelBajas);//Posicionamiento
-					metodoMagico(nombre, 172, 63, 187, 17, panelBajas);
-					metodoMagico(primerAp, 216, 86, 144, 17, panelBajas);
-					metodoMagico(segundoAp, 216, 109, 144, 17, panelBajas);
-					metodoMagico(comboEdad, 216, 137, 40, 16, panelBajas);
-					metodoMagico(comboSemestre, 216, 165, 144, 16, panelBajas);
-					metodoMagico(comboCarrera, 216, 181, 144, 16, panelBajas);
+					metodoMagico(numControl, 226, 40, 134, 17, panelesBajas[1]);//Posicionamiento
+					metodoMagico(nombre, 172, 63, 187, 17, panelesBajas[1]);
+					metodoMagico(primerAp, 216, 86, 144, 17, panelesBajas[1]);
+					metodoMagico(segundoAp, 216, 109, 144, 17, panelesBajas[1]);
+					metodoMagico(comboEdad, 216, 137, 40, 16, panelesBajas[1]);
+					metodoMagico(comboSemestre, 216, 165, 144, 16, panelesBajas[1]);
+					metodoMagico(comboCarrera, 216, 181, 144, 16, panelesBajas[1]);
 					
-					metodoMagico(busqueda, 380, 11, 84, 30, panelBajas);
-					metodoMagico(borrar, 380, 46, 90, 18, panelBajas);
+					metodoMagico(busqueda, 380, 11, 84, 30, panelesBajas[1]);
+					metodoMagico(borrar, 380, 46, 90, 18, panelesBajas[1]);
 					interaccion.setText("ELIMINAR");
-					metodoMagico(interaccion, 380, 105, 90, 18, panelBajas);
-					metodoMagico(cancelar, 375, 153, 100, 18, panelBajas);
+					metodoMagico(interaccion, 380, 105, 90, 18, panelesBajas[1]);
+					metodoMagico(cancelar, 375, 153, 100, 18, panelesBajas[1]);*/
 				}
 			});	
 		cambios = new JMenu("Cambios");
@@ -367,28 +356,29 @@ class Interfaz extends JFrame implements ActionListener{
 					recordConsultas.setVisible(false);
 					
 					setFormularioEnabled(true);
+					defPosicionamiento(panelesCambios[1], true, true, "GUARDAR CAMBIOS");
 					
-					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelCambios);//Labels
-					metodoMagico(lblNombres, 90, 60, 130, 20, panelCambios);
-					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelCambios);
-					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelCambios);
-					metodoMagico(lblEdad, 90, 129, 130, 20, panelCambios);
-					metodoMagico(lblSemestre, 90, 159, 130, 20, panelCambios);
-					metodoMagico(lblCarrera, 90, 177, 130, 20, panelCambios);
+					/*metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelesCambios[1]);//Labels
+					metodoMagico(lblNombres, 90, 60, 130, 20, panelesCambios[1]);
+					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelesCambios[1]);
+					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelesCambios[1]);
+					metodoMagico(lblEdad, 90, 129, 130, 20, panelesCambios[1]);
+					metodoMagico(lblSemestre, 90, 159, 130, 20, panelesCambios[1]);
+					metodoMagico(lblCarrera, 90, 177, 130, 20, panelesCambios[1]);
 					
-					metodoMagico(numControl, 226, 40, 134, 17, panelCambios);//Posicionamiento
-					metodoMagico(nombre, 172, 63, 187, 17, panelCambios);
-					metodoMagico(primerAp, 216, 86, 144, 17, panelCambios);
-					metodoMagico(segundoAp, 216, 109, 144, 17, panelCambios);
-					metodoMagico(comboEdad, 216, 137, 40, 16, panelCambios);
-					metodoMagico(comboSemestre, 216, 165, 144, 16, panelCambios);
-					metodoMagico(comboCarrera, 216, 181, 144, 16, panelCambios);
+					metodoMagico(numControl, 226, 40, 134, 17, panelesCambios[1]);//Posicionamiento
+					metodoMagico(nombre, 172, 63, 187, 17, panelesCambios[1]);
+					metodoMagico(primerAp, 216, 86, 144, 17, panelesCambios[1]);
+					metodoMagico(segundoAp, 216, 109, 144, 17, panelesCambios[1]);
+					metodoMagico(comboEdad, 216, 137, 40, 16, panelesCambios[1]);
+					metodoMagico(comboSemestre, 216, 165, 144, 16, panelesCambios[1]);
+					metodoMagico(comboCarrera, 216, 181, 144, 16, panelesCambios[1]);
 					
-					metodoMagico(busqueda, 380, 11, 84, 30, panelCambios);
-					metodoMagico(borrar, 380, 46, 90, 18, panelCambios);
+					metodoMagico(busqueda, 380, 11, 84, 30, panelesCambios[1]);
+					metodoMagico(borrar, 380, 46, 90, 18, panelesCambios[1]);
 					interaccion.setText("GUARDAR CAMBIOS");
-					metodoMagico(interaccion, 380, 105, 160, 18, panelCambios);
-					metodoMagico(cancelar, 375, 153, 165, 18, panelCambios);
+					metodoMagico(interaccion, 380, 105, 160, 18, panelesCambios[1]);
+					metodoMagico(cancelar, 375, 153, 165, 18, panelesCambios[1]);*/
 				}
 			});
 		consultas = new JMenu("Consultas");
@@ -408,38 +398,38 @@ class Interfaz extends JFrame implements ActionListener{
 					metodoQueRestableceTODO(numControl,nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);
 					
 					setFormularioEnabled(false);
-					
 					cbTodos.setSelected(false);
 					setCheckboxesSelected(false);
+					defPosicionamiento(panelesConsultas[1], true, false, "");
 					
-					metodoMagico(cbTodos, 70, 17, 20, 20, panelConsultas);
-					metodoMagico(cbNumeroDeControl, 70, 37, 20, 20, panelConsultas);//Checkboxes
-					metodoMagico(cbNombres, 70, 60, 20, 20, panelConsultas);
-					metodoMagico(cbApellidoPaterno, 70, 83, 20, 20, panelConsultas);
-					metodoMagico(cbApellidoMaterno, 70, 106, 20, 20, panelConsultas);
-					metodoMagico(cbEdad, 70, 129, 20, 20, panelConsultas);
-					metodoMagico(cbSemestre, 70, 159, 20, 20, panelConsultas);
-					metodoMagico(cbCarrera, 70, 177, 20, 20, panelConsultas);
+					metodoMagico(cbTodos, 70, 17, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbNumeroDeControl, 70, 37, 20, 20, panelesConsultas[1]);//Checkboxes
+					metodoMagico(cbNombres, 70, 60, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbApellidoPaterno, 70, 83, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbApellidoMaterno, 70, 106, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbEdad, 70, 129, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbSemestre, 70, 159, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbCarrera, 70, 177, 20, 20, panelesConsultas[1]);
 					
-					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelConsultas);//Labels
-					metodoMagico(lblNombres, 90, 60, 130, 20, panelConsultas);
-					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelConsultas);
-					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelConsultas);
-					metodoMagico(lblEdad, 90, 129, 130, 20, panelConsultas);
-					metodoMagico(lblSemestre, 90, 159, 130, 20, panelConsultas);
-					metodoMagico(lblCarrera, 90, 177, 130, 20, panelConsultas);
+					/*metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelesConsultas[1]);//Labels
+					metodoMagico(lblNombres, 90, 60, 130, 20, panelesConsultas[1]);
+					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelesConsultas[1]);
+					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelesConsultas[1]);
+					metodoMagico(lblEdad, 90, 129, 130, 20, panelesConsultas[1]);
+					metodoMagico(lblSemestre, 90, 159, 130, 20, panelesConsultas[1]);
+					metodoMagico(lblCarrera, 90, 177, 130, 20, panelesConsultas[1]);
 					
-					metodoMagico(numControl, 226, 40, 134, 17, panelConsultas);//Posicionamiento
-					metodoMagico(nombre, 172, 63, 187, 17, panelConsultas);
-					metodoMagico(primerAp, 216, 86, 144, 17, panelConsultas);
-					metodoMagico(segundoAp, 216, 109, 144, 17, panelConsultas);
-					metodoMagico(comboEdad, 216, 137, 40, 16, panelConsultas);
-					metodoMagico(comboSemestre, 216, 165, 144, 16, panelConsultas);
-					metodoMagico(comboCarrera, 216, 181, 144, 16, panelConsultas);
+					metodoMagico(numControl, 226, 40, 134, 17, panelesConsultas[1]);//Posicionamiento
+					metodoMagico(nombre, 172, 63, 187, 17, panelesConsultas[1]);
+					metodoMagico(primerAp, 216, 86, 144, 17, panelesConsultas[1]);
+					metodoMagico(segundoAp, 216, 109, 144, 17, panelesConsultas[1]);
+					metodoMagico(comboEdad, 216, 137, 40, 16, panelesConsultas[1]);
+					metodoMagico(comboSemestre, 216, 165, 144, 16, panelesConsultas[1]);
+					metodoMagico(comboCarrera, 216, 181, 144, 16, panelesConsultas[1]);
 					
-					metodoMagico(busqueda, 380, 11, 84, 30, panelConsultas);
-					metodoMagico(borrar, 380, 46, 90, 18, panelConsultas);
-					metodoMagico(cancelar, 375, 153, 100, 18, panelConsultas);
+					metodoMagico(busqueda, 380, 11, 84, 30, panelesConsultas[1]);
+					metodoMagico(borrar, 380, 46, 90, 18, panelesConsultas[1]);
+					metodoMagico(cancelar, 375, 153, 100, 18, panelesConsultas[1]);*/
 				}
 			});
 		menuBar.add(altas);
@@ -448,14 +438,14 @@ class Interfaz extends JFrame implements ActionListener{
 		menuBar.add(consultas);
 		setJMenuBar(menuBar);
 		
-		recordAltas.add(panelAltasTitulo);
-		recordAltas.add(panelAltas);
-		recordBajas.add(panelBajasTitulo);
-		recordBajas.add(panelBajas);
-		recordCambios.add(panelCambiosTitulo);
-		recordCambios.add(panelCambios);
-		recordConsultas.add(panelConsultasTitulo);
-		recordConsultas.add(panelConsultas);
+		recordAltas.add(panelesAltas[0]);
+		recordAltas.add(panelesAltas[1]);
+		recordBajas.add(panelesBajas[0]);
+		recordBajas.add(panelesBajas[1]);
+		recordCambios.add(panelesCambios[0]);
+		recordCambios.add(panelesCambios[1]);
+		recordConsultas.add(panelesConsultas[0]);
+		recordConsultas.add(panelesConsultas[1]);
 		
 		dp.add(lista);
 		dp.add(recordAltas);
