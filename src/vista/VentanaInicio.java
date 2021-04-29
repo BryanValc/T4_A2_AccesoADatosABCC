@@ -37,9 +37,9 @@ class Interfaz extends JFrame implements ActionListener{
 	JTable tabla;
 	JScrollPane sp = new JScrollPane();
 	
-	/*JTable table=new JTable();
-	JTableHeader header = table.getTableHeader();
-	*/
+	public void defaultFrame() {
+		
+	};
 	
 	public Interfaz() {
 		getContentPane().setLayout(null);
@@ -94,45 +94,12 @@ class Interfaz extends JFrame implements ActionListener{
 			public void itemStateChanged(ItemEvent arg0) {
 				
 				if(cbTodos.isSelected()) {
-					cbNumeroDeControl.setSelected(false);
-					cbNombres.setSelected(false);
-					cbApellidoPaterno.setSelected(false);
-					cbApellidoMaterno.setSelected(false);
-					cbEdad.setSelected(false);
-					cbSemestre.setSelected(false);
-					cbCarrera.setSelected(false);
-					
-					cbNumeroDeControl.setEnabled(false);
-					cbNombres.setEnabled(false);
-					cbApellidoPaterno.setEnabled(false);
-					cbApellidoMaterno.setEnabled(false);
-					cbEdad.setEnabled(false);
-					cbSemestre.setEnabled(false);
-					cbCarrera.setEnabled(false);
-					
-					numControl.setEditable(true);
-					nombre.setEditable(true);
-					primerAp.setEditable(true);
-					segundoAp.setEditable(true);
-					comboEdad.setEnabled(true);
-					comboSemestre.setEnabled(true);
-					comboCarrera.setEnabled(true);
+					setCheckboxesSelected(false);
+					setCheckboxesEnabled(false);
+					setFormularioEnabled(true);
 	            }else {
-	            	numControl.setEditable(false);
-					nombre.setEditable(false);
-					primerAp.setEditable(false);
-					segundoAp.setEditable(false);
-					comboEdad.setEnabled(false);
-					comboSemestre.setEnabled(false);
-					comboCarrera.setEnabled(false);
-					
-					cbNumeroDeControl.setEnabled(true);
-					cbNombres.setEnabled(true);
-					cbApellidoPaterno.setEnabled(true);
-					cbApellidoMaterno.setEnabled(true);
-					cbEdad.setEnabled(true);
-					cbSemestre.setEnabled(true);
-					cbCarrera.setEnabled(true);
+	            	setFormularioEnabled(false);
+	            	setCheckboxesEnabled(false);
 	            }
 			}
 	    });
@@ -221,9 +188,7 @@ class Interfaz extends JFrame implements ActionListener{
 			}
 	    });
 		
-		
 		JDesktopPane dp = new JDesktopPane();
-		
 		
 		recordAltas = new JInternalFrame();//==============================================Frame Altas====================================================================
 			recordAltas.getContentPane().setLayout(null);
@@ -319,13 +284,7 @@ class Interfaz extends JFrame implements ActionListener{
 					recordCambios.setVisible(false);
 					recordConsultas.setVisible(false);
 					
-					numControl.setEditable(true);
-					nombre.setEditable(true);
-					primerAp.setEditable(true);
-					segundoAp.setEditable(true);
-					comboEdad.setEnabled(true);
-					comboSemestre.setEnabled(true);
-					comboCarrera.setEnabled(true);
+					setFormularioEnabled(true);
 					
 					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelAltas);//Labels
 					metodoMagico(lblNombres, 90, 60, 130, 20, panelAltas);
@@ -367,13 +326,8 @@ class Interfaz extends JFrame implements ActionListener{
 					
 					metodoQueRestableceTODO(nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);
 					
+					setFormularioEnabled(false);
 					numControl.setEditable(true);
-					nombre.setEditable(false);
-					primerAp.setEditable(false);
-					segundoAp.setEditable(false);
-					comboEdad.setEnabled(false);
-					comboSemestre.setEnabled(false);
-					comboCarrera.setEnabled(false);
 					
 					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelBajas);//Labels
 					metodoMagico(lblNombres, 90, 60, 130, 20, panelBajas);
@@ -412,13 +366,7 @@ class Interfaz extends JFrame implements ActionListener{
 					recordCambios.setVisible(true);
 					recordConsultas.setVisible(false);
 					
-					numControl.setEditable(true);
-					nombre.setEditable(true);
-					primerAp.setEditable(true);
-					segundoAp.setEditable(true);
-					comboEdad.setEnabled(true);
-					comboSemestre.setEnabled(true);
-					comboCarrera.setEnabled(true);
+					setFormularioEnabled(true);
 					
 					metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelCambios);//Labels
 					metodoMagico(lblNombres, 90, 60, 130, 20, panelCambios);
@@ -459,22 +407,10 @@ class Interfaz extends JFrame implements ActionListener{
 					
 					metodoQueRestableceTODO(numControl,nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);
 					
-					numControl.setEditable(false);
-					nombre.setEditable(false);
-					primerAp.setEditable(false);
-					segundoAp.setEditable(false);
-					comboEdad.setEnabled(false);
-					comboSemestre.setEnabled(false);
-					comboCarrera.setEnabled(false);
+					setFormularioEnabled(false);
 					
 					cbTodos.setSelected(false);
-					cbNumeroDeControl.setSelected(false);
-					cbNombres.setSelected(false);
-					cbApellidoPaterno.setSelected(false);
-					cbApellidoMaterno.setSelected(false);
-					cbEdad.setSelected(false);
-					cbSemestre.setSelected(false);
-					cbCarrera.setSelected(false);
+					setCheckboxesSelected(false);
 					
 					metodoMagico(cbTodos, 70, 17, 20, 20, panelConsultas);
 					metodoMagico(cbNumeroDeControl, 70, 37, 20, 20, panelConsultas);//Checkboxes
@@ -503,8 +439,6 @@ class Interfaz extends JFrame implements ActionListener{
 					
 					metodoMagico(busqueda, 380, 11, 84, 30, panelConsultas);
 					metodoMagico(borrar, 380, 46, 90, 18, panelConsultas);
-					//interaccion.setText("GUARDAR CAMBIOS");
-					//metodoMagico(interaccion, 380, 105, 110, 18, panelBajas);
 					metodoMagico(cancelar, 375, 153, 100, 18, panelConsultas);
 				}
 			});
@@ -533,7 +467,32 @@ class Interfaz extends JFrame implements ActionListener{
 		
 	}
 	
-	
+	public void setCheckboxesSelected(boolean b){
+		cbNombres.setSelected(b);
+		cbApellidoPaterno.setSelected(b);
+		cbApellidoMaterno.setSelected(b);
+		cbEdad.setSelected(b);
+		cbSemestre.setSelected(b);
+		cbCarrera.setSelected(b);
+	}
+	public void setCheckboxesEnabled(boolean b){
+		cbNumeroDeControl.setEnabled(b);
+		cbNombres.setEnabled(b);
+		cbApellidoPaterno.setEnabled(b);
+		cbApellidoMaterno.setEnabled(b);
+		cbEdad.setEnabled(b);
+		cbSemestre.setEnabled(b);
+		cbCarrera.setEnabled(b);
+	}
+	public void setFormularioEnabled(boolean b) {
+		numControl.setEditable(b);
+		nombre.setEditable(b);
+		primerAp.setEditable(b);
+		segundoAp.setEditable(b);
+		comboEdad.setEnabled(b);
+		comboSemestre.setEnabled(b);
+		comboCarrera.setEnabled(b);
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -626,7 +585,6 @@ class Interfaz extends JFrame implements ActionListener{
 	}
 	
 	public void metodoQueRestableceTODO(Component...componentesGraficos) {
-		
 		for (Component c: componentesGraficos) {
 			if (c instanceof JComboBox) {
 				((JComboBox<?>)c).setSelectedIndex(-1);
@@ -634,7 +592,6 @@ class Interfaz extends JFrame implements ActionListener{
 				((JTextField)c).setText("");
 			}
 		}
-		
 	}
 	
 	public void actualizarTabla(String driver, String url, String sql) {
