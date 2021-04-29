@@ -37,60 +37,6 @@ class Interfaz extends JFrame implements ActionListener{
 	JTable tabla;
 	JScrollPane sp = new JScrollPane();
 	
-	public JPanel[] defPanel(JInternalFrame frame,String encabezado,String titulo,Color color) {
-		frame.getContentPane().setLayout(null);
-		frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		frame.setSize(567,290);
-		frame.setTitle(encabezado);
-		JPanel panelTitulo = new JPanel();//Panel titulo
-		panelTitulo.setLayout(null);
-		panelTitulo.setBackground(color);
-		panelTitulo.setBounds(0, 0, 567, 50);
-		JLabel lblTitulo = new JLabel(titulo);
-		lblTitulo.setFont(new Font("Calibri", Font.BOLD, 20));
-		lblTitulo.setForeground(Color.WHITE);
-		metodoMagico(lblTitulo, 30, 20, 290, 20, panelTitulo);
-		JPanel panel = new JPanel();//Panel
-		panel.setLayout(null);
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 50, 567, 425);
-		JPanel retorno[]=new JPanel[2];
-		retorno[0]=panelTitulo;
-		retorno[1]=panel;
-		return retorno;
-	};
-	
-	public void defPosicionamiento(JPanel panel, boolean busq, boolean interact, String boton) {
-		metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panel);//Labels
-		metodoMagico(lblNombres, 90, 60, 130, 20, panel);
-		metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panel);
-		metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panel);
-		metodoMagico(lblEdad, 90, 129, 130, 20, panel);
-		metodoMagico(lblSemestre, 90, 159, 130, 20, panel);
-		metodoMagico(lblCarrera, 90, 177, 130, 20, panel);
-		
-		metodoMagico(numControl, 226, 40, 134, 17, panel);//Posicionamiento
-		metodoMagico(nombre, 172, 63, 187, 17, panel);
-		metodoMagico(primerAp, 216, 86, 144, 17, panel);
-		metodoMagico(segundoAp, 216, 109, 144, 17, panel);
-		metodoMagico(comboEdad, 216, 137, 40, 16, panel);
-		metodoMagico(comboSemestre, 216, 165, 144, 16, panel);
-		metodoMagico(comboCarrera, 216, 181, 144, 16, panel);
-		
-		metodoMagico(borrar, 380, 46, 90, 18, panel);
-		metodoMagico(cancelar, 375, 153, 100, 18, panel);
-		if (busq) {metodoMagico(busqueda, 380, 11, 84, 30, panel);}
-		if (interact) {
-			interaccion.setText(boton);
-			if (boton.contains("GUARDAR CAMBIOS")) {
-				metodoMagico(interaccion, 380, 105, 160, 18, panel);
-			}else {
-				metodoMagico(interaccion, 380, 105, 90, 18, panel);
-			}
-			
-		}
-	}
-	
 	public Interfaz() {
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -99,7 +45,221 @@ class Interfaz extends JFrame implements ActionListener{
 		setTitle("Formulario");
 		setVisible(true);
 		
-		numControl = new JTextField();//=====================================================Reasignacion=======================================
+		reasignacion();
+		
+		cbTodos.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				
+				if(cbTodos.isSelected()) {
+					setCheckboxesSelected(false);
+					setCheckboxesEnabled(false);
+					setFormularioEnabled(true);
+	            }else {
+	            	setFormularioEnabled(false);
+	            	setCheckboxesEnabled(false);
+	            }
+			}
+	    });
+		cbNumeroDeControl.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbNumeroDeControl.isSelected()) {
+					numControl.setEditable(true);
+	            }else {
+	            	numControl.setText("");
+	            	numControl.setEditable(false);
+	            }
+			}
+	    });
+		cbNombres.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbNombres.isSelected()) {
+					nombre.setEditable(true);
+	            }else {
+	            	nombre.setText("");
+	            	nombre.setEditable(false);
+	            }
+			}
+	    });
+		cbApellidoPaterno.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbApellidoPaterno.isSelected()) {
+					primerAp.setEditable(true);
+	            }else {
+	            	primerAp.setText("");
+	            	primerAp.setEditable(false);
+	            }
+			}
+	    });
+		cbApellidoMaterno.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbApellidoMaterno.isSelected()) {
+					segundoAp.setEditable(true);
+	            }else {
+	            	segundoAp.setText("");
+	            	segundoAp.setEditable(false);
+	            }
+			}
+	    });
+		cbEdad.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbEdad.isSelected()) {
+					comboEdad.setEnabled(true);
+	            }else {
+	            	comboEdad.setSelectedIndex(-1);
+	            	comboEdad.setEnabled(false);
+	            }
+			}
+	    });
+		cbSemestre.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbSemestre.isSelected()) {
+					comboSemestre.setEnabled(true);
+	            }else {
+	            	comboSemestre.setSelectedIndex(-1);
+	            	comboSemestre.setEnabled(false);
+	            }
+			}
+	    });
+		cbCarrera.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbCarrera.isSelected()) {
+					comboCarrera.setEnabled(true);
+	            }else {
+	            	comboCarrera.setSelectedIndex(-1);
+	            	comboCarrera.setEnabled(false);
+	            }
+			}
+	    });
+		
+		JDesktopPane dp = new JDesktopPane();
+		
+		recordAltas = new JInternalFrame();//==============================================Frame Altas====================================================
+		JPanel panelesAltas[]= defPanel(recordAltas, "Altas Alumnos", "ALTAS ALUMNOS", Color.GREEN);
+		recordBajas = new JInternalFrame();//==============================================Frame Bajas====================================================
+		JPanel panelesBajas[]= defPanel(recordBajas, "Bajas Alumnos", "BAJAS ALUMNOS", Color.RED);
+		recordCambios = new JInternalFrame();//=========================================Frame Cambios=====================================================
+		JPanel panelesCambios[]= defPanel(recordCambios, "Modificaciones Alumnos", "MODIFICACIONES ALUMNOS", Color.ORANGE);
+		recordConsultas = new JInternalFrame();//========================================Frame Consultas==================================================
+		JPanel panelesConsultas[]= defPanel(recordConsultas, "Consultas Alumnos", "CONSULTAS ALUMNOS", Color.BLUE);
+			
+		lista = new JInternalFrame();//========================================Frame Lista================================================================
+			lista.getContentPane().setLayout(null);
+			lista.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			lista.setSize(567,137);
+			lista.setLocation(0, 290);
+			lista.setTitle("Lista");
+		
+		menuBar = new JMenuBar();
+		altas = new JMenu("Altas");
+			menuItemAltas= new JMenuItem("registrar");
+			altas.add(menuItemAltas);
+			menuItemAltas.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");//tabla
+					recordAltas.setVisible(true);//JFrames
+					recordBajas.setVisible(false);
+					recordCambios.setVisible(false);
+					recordConsultas.setVisible(false);
+					setFormularioEnabled(true);//Formulario y elementos
+					defPosicionamiento(panelesAltas[1], false, true, "AGREGAR");
+				}
+			});	
+		bajas = new JMenu("Bajas");
+			menuItemBajas= new JMenuItem("eliminar");
+			bajas.add(menuItemBajas);
+			menuItemBajas.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");//tabla
+					recordAltas.setVisible(false);//JFrames
+					recordBajas.setVisible(true);
+					recordCambios.setVisible(false);
+					recordConsultas.setVisible(false);
+					metodoQueRestableceTODO(nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);//Formulario y elementos
+					setFormularioEnabled(false);
+					numControl.setEditable(true);
+					defPosicionamiento(panelesBajas[1], true, true, "ELIMINAR");
+					
+				}
+			});	
+		cambios = new JMenu("Cambios");
+			menuItemCambios= new JMenuItem("modificar");
+			cambios.add(menuItemCambios);
+			menuItemCambios.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");//tabla
+					recordAltas.setVisible(false);//JFrames
+					recordBajas.setVisible(false);
+					recordCambios.setVisible(true);
+					recordConsultas.setVisible(false);
+					setFormularioEnabled(true);//Formulario y elementos
+					defPosicionamiento(panelesCambios[1], true, true, "GUARDAR CAMBIOS");
+					
+				}
+			});
+		consultas = new JMenu("Consultas");
+			menuItemConsultas= new JMenuItem("buscar");
+			consultas.add(menuItemConsultas);
+			menuItemConsultas.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");//tabla
+					recordAltas.setVisible(false);//JFrames
+					recordBajas.setVisible(false);
+					recordCambios.setVisible(false);
+					recordConsultas.setVisible(true);
+					metodoQueRestableceTODO(numControl,nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);
+					setFormularioEnabled(false);
+					cbTodos.setSelected(false);
+					setCheckboxesSelected(false);
+					defPosicionamiento(panelesConsultas[1], true, false, "");;//Formulario y elementos
+					metodoMagico(cbTodos, 70, 17, 20, 20, panelesConsultas[1]);//Checkboxes
+					metodoMagico(cbNumeroDeControl, 70, 37, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbNombres, 70, 60, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbApellidoPaterno, 70, 83, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbApellidoMaterno, 70, 106, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbEdad, 70, 129, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbSemestre, 70, 159, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbCarrera, 70, 177, 20, 20, panelesConsultas[1]);
+				}
+			});
+		menuBar.add(altas);
+		menuBar.add(bajas);
+		menuBar.add(cambios);
+		menuBar.add(consultas);
+		setJMenuBar(menuBar);
+		
+		recordAltas.add(panelesAltas[0]);
+		recordAltas.add(panelesAltas[1]);
+		recordBajas.add(panelesBajas[0]);
+		recordBajas.add(panelesBajas[1]);
+		recordCambios.add(panelesCambios[0]);
+		recordCambios.add(panelesCambios[1]);
+		recordConsultas.add(panelesConsultas[0]);
+		recordConsultas.add(panelesConsultas[1]);
+		
+		dp.add(lista);
+		dp.add(recordAltas);
+		dp.add(recordBajas);
+		dp.add(recordCambios);
+		dp.add(recordConsultas);
+		dp.setBounds(0, 0, 567, 425);
+		add(dp);
+		
+	}
+	
+	public void reasignacion() {
+		numControl = new JTextField();
 		nombre = new JTextField();
 		primerAp = new JTextField();
 		segundoAp = new JTextField();
@@ -138,323 +298,14 @@ class Interfaz extends JFrame implements ActionListener{
 		busqueda = new JButton(iconoBusqueda);
 		busqueda.addActionListener(this);
 		
-		cbTodos=new JCheckBox();//==============================================================Checkboxes=================================================
-		cbTodos.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				
-				if(cbTodos.isSelected()) {
-					setCheckboxesSelected(false);
-					setCheckboxesEnabled(false);
-					setFormularioEnabled(true);
-	            }else {
-	            	setFormularioEnabled(false);
-	            	setCheckboxesEnabled(false);
-	            }
-			}
-	    });
+		cbTodos=new JCheckBox();//checkBoxes
 		cbNumeroDeControl=new JCheckBox();
-		cbNumeroDeControl.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				if(cbNumeroDeControl.isSelected()) {
-					numControl.setEditable(true);
-	            }else {
-	            	numControl.setText("");
-	            	numControl.setEditable(false);
-	            }
-			}
-	    });
 		cbNombres=new JCheckBox();
-		cbNombres.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				if(cbNombres.isSelected()) {
-					nombre.setEditable(true);
-	            }else {
-	            	nombre.setText("");
-	            	nombre.setEditable(false);
-	            }
-			}
-	    });
 		cbApellidoPaterno=new JCheckBox();
-		cbApellidoPaterno.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				if(cbApellidoPaterno.isSelected()) {
-					primerAp.setEditable(true);
-	            }else {
-	            	primerAp.setText("");
-	            	primerAp.setEditable(false);
-	            }
-			}
-	    });
 		cbApellidoMaterno=new JCheckBox();
-		cbApellidoMaterno.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				if(cbApellidoMaterno.isSelected()) {
-					segundoAp.setEditable(true);
-	            }else {
-	            	segundoAp.setText("");
-	            	segundoAp.setEditable(false);
-	            }
-			}
-	    });
 		cbEdad=new JCheckBox();
-		cbEdad.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				if(cbEdad.isSelected()) {
-					comboEdad.setEnabled(true);
-	            }else {
-	            	comboEdad.setSelectedIndex(-1);
-	            	comboEdad.setEnabled(false);
-	            }
-			}
-	    });
 		cbSemestre=new JCheckBox();
-		cbSemestre.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				if(cbSemestre.isSelected()) {
-					comboSemestre.setEnabled(true);
-	            }else {
-	            	comboSemestre.setSelectedIndex(-1);
-	            	comboSemestre.setEnabled(false);
-	            }
-			}
-	    });
 		cbCarrera=new JCheckBox();
-		cbCarrera.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				if(cbCarrera.isSelected()) {
-					comboCarrera.setEnabled(true);
-	            }else {
-	            	comboCarrera.setSelectedIndex(-1);
-	            	comboCarrera.setEnabled(false);
-	            }
-			}
-	    });
-		
-		JDesktopPane dp = new JDesktopPane();
-		
-		recordAltas = new JInternalFrame();//==============================================Frame Altas====================================================
-		JPanel panelesAltas[]= defPanel(recordAltas, "Altas Alumnos", "ALTAS ALUMNOS", Color.GREEN);
-		recordBajas = new JInternalFrame();//==============================================Frame Bajas====================================================
-		JPanel panelesBajas[]= defPanel(recordBajas, "Bajas Alumnos", "BAJAS ALUMNOS", Color.RED);
-		recordCambios = new JInternalFrame();//=========================================Frame Cambios=====================================================
-		JPanel panelesCambios[]= defPanel(recordCambios, "Modificaciones Alumnos", "MODIFICACIONES ALUMNOS", Color.ORANGE);
-		recordConsultas = new JInternalFrame();//========================================Frame Consultas==================================================
-		JPanel panelesConsultas[]= defPanel(recordConsultas, "Consultas Alumnos", "CONSULTAS ALUMNOS", Color.BLUE);
-			
-		lista = new JInternalFrame();//========================================Frame Lista================================================================
-			lista.getContentPane().setLayout(null);
-			lista.setDefaultCloseOperation(HIDE_ON_CLOSE);
-			lista.setSize(567,137);
-			lista.setLocation(0, 290);
-			lista.setTitle("Lista");
-		
-		menuBar = new JMenuBar();
-		altas = new JMenu("Altas");
-			menuItemAltas= new JMenuItem("registrar");
-			altas.add(menuItemAltas);
-			menuItemAltas.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");
-					
-					recordAltas.setVisible(true);
-					recordBajas.setVisible(false);
-					recordCambios.setVisible(false);
-					recordConsultas.setVisible(false);
-					
-					setFormularioEnabled(true);
-					defPosicionamiento(panelesAltas[1], false, true, "AGREGAR");
-					
-					/*metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelesAltas[1]);//Labels
-					metodoMagico(lblNombres, 90, 60, 130, 20, panelesAltas[1]);
-					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelesAltas[1]);
-					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelesAltas[1]);
-					metodoMagico(lblEdad, 90, 129, 130, 20, panelesAltas[1]);
-					metodoMagico(lblSemestre, 90, 159, 130, 20, panelesAltas[1]);
-					metodoMagico(lblCarrera, 90, 177, 130, 20, panelesAltas[1]);
-					
-					metodoMagico(numControl, 226, 40, 134, 17, panelesAltas[1]);//Posicionamiento
-					metodoMagico(nombre, 172, 63, 187, 17, panelesAltas[1]);
-					metodoMagico(primerAp, 216, 86, 144, 17, panelesAltas[1]);
-					metodoMagico(segundoAp, 216, 109, 144, 17, panelesAltas[1]);
-					metodoMagico(comboEdad, 216, 137, 40, 16, panelesAltas[1]);
-					metodoMagico(comboSemestre, 216, 165, 144, 16, panelesAltas[1]);
-					metodoMagico(comboCarrera, 216, 181, 144, 16, panelesAltas[1]);
-					
-					metodoMagico(borrar, 380, 105, 90, 18, panelesAltas[1]);
-					interaccion.setText("AGREGAR");
-					metodoMagico(interaccion, 380, 46, 90, 18, panelesAltas[1]);
-					metodoMagico(cancelar, 375, 153, 100, 18, panelesAltas[1]);*/
-					
-					
-				}
-			});	
-		bajas = new JMenu("Bajas");
-			menuItemBajas= new JMenuItem("eliminar");
-			bajas.add(menuItemBajas);
-			menuItemBajas.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");
-					
-					recordAltas.setVisible(false);
-					recordBajas.setVisible(true);
-					recordCambios.setVisible(false);
-					recordConsultas.setVisible(false);
-					
-					metodoQueRestableceTODO(nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);
-					
-					setFormularioEnabled(false);
-					numControl.setEditable(true);
-					defPosicionamiento(panelesBajas[1], true, true, "ELIMINAR");
-					
-					/*metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelesBajas[1]);//Labels
-					metodoMagico(lblNombres, 90, 60, 130, 20, panelesBajas[1]);
-					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelesBajas[1]);
-					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelesBajas[1]);
-					metodoMagico(lblEdad, 90, 129, 130, 20, panelesBajas[1]);
-					metodoMagico(lblSemestre, 90, 159, 130, 20, panelesBajas[1]);
-					metodoMagico(lblCarrera, 90, 177, 130, 20, panelesBajas[1]);
-					
-					metodoMagico(numControl, 226, 40, 134, 17, panelesBajas[1]);//Posicionamiento
-					metodoMagico(nombre, 172, 63, 187, 17, panelesBajas[1]);
-					metodoMagico(primerAp, 216, 86, 144, 17, panelesBajas[1]);
-					metodoMagico(segundoAp, 216, 109, 144, 17, panelesBajas[1]);
-					metodoMagico(comboEdad, 216, 137, 40, 16, panelesBajas[1]);
-					metodoMagico(comboSemestre, 216, 165, 144, 16, panelesBajas[1]);
-					metodoMagico(comboCarrera, 216, 181, 144, 16, panelesBajas[1]);
-					
-					metodoMagico(busqueda, 380, 11, 84, 30, panelesBajas[1]);
-					metodoMagico(borrar, 380, 46, 90, 18, panelesBajas[1]);
-					interaccion.setText("ELIMINAR");
-					metodoMagico(interaccion, 380, 105, 90, 18, panelesBajas[1]);
-					metodoMagico(cancelar, 375, 153, 100, 18, panelesBajas[1]);*/
-				}
-			});	
-		cambios = new JMenu("Cambios");
-			menuItemCambios= new JMenuItem("modificar");
-			cambios.add(menuItemCambios);
-			menuItemCambios.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");
-					
-					recordAltas.setVisible(false);
-					recordBajas.setVisible(false);
-					recordCambios.setVisible(true);
-					recordConsultas.setVisible(false);
-					
-					setFormularioEnabled(true);
-					defPosicionamiento(panelesCambios[1], true, true, "GUARDAR CAMBIOS");
-					
-					/*metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelesCambios[1]);//Labels
-					metodoMagico(lblNombres, 90, 60, 130, 20, panelesCambios[1]);
-					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelesCambios[1]);
-					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelesCambios[1]);
-					metodoMagico(lblEdad, 90, 129, 130, 20, panelesCambios[1]);
-					metodoMagico(lblSemestre, 90, 159, 130, 20, panelesCambios[1]);
-					metodoMagico(lblCarrera, 90, 177, 130, 20, panelesCambios[1]);
-					
-					metodoMagico(numControl, 226, 40, 134, 17, panelesCambios[1]);//Posicionamiento
-					metodoMagico(nombre, 172, 63, 187, 17, panelesCambios[1]);
-					metodoMagico(primerAp, 216, 86, 144, 17, panelesCambios[1]);
-					metodoMagico(segundoAp, 216, 109, 144, 17, panelesCambios[1]);
-					metodoMagico(comboEdad, 216, 137, 40, 16, panelesCambios[1]);
-					metodoMagico(comboSemestre, 216, 165, 144, 16, panelesCambios[1]);
-					metodoMagico(comboCarrera, 216, 181, 144, 16, panelesCambios[1]);
-					
-					metodoMagico(busqueda, 380, 11, 84, 30, panelesCambios[1]);
-					metodoMagico(borrar, 380, 46, 90, 18, panelesCambios[1]);
-					interaccion.setText("GUARDAR CAMBIOS");
-					metodoMagico(interaccion, 380, 105, 160, 18, panelesCambios[1]);
-					metodoMagico(cancelar, 375, 153, 165, 18, panelesCambios[1]);*/
-				}
-			});
-		consultas = new JMenu("Consultas");
-			menuItemConsultas= new JMenuItem("buscar");
-			consultas.add(menuItemConsultas);
-			menuItemConsultas.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos","SELECT * FROM Alumnos");
-					
-					recordAltas.setVisible(false);
-					recordBajas.setVisible(false);
-					recordCambios.setVisible(false);
-					recordConsultas.setVisible(true);
-					
-					metodoQueRestableceTODO(numControl,nombre,primerAp,segundoAp,comboEdad,comboSemestre,comboCarrera);
-					
-					setFormularioEnabled(false);
-					cbTodos.setSelected(false);
-					setCheckboxesSelected(false);
-					defPosicionamiento(panelesConsultas[1], true, false, "");
-					
-					metodoMagico(cbTodos, 70, 17, 20, 20, panelesConsultas[1]);
-					metodoMagico(cbNumeroDeControl, 70, 37, 20, 20, panelesConsultas[1]);//Checkboxes
-					metodoMagico(cbNombres, 70, 60, 20, 20, panelesConsultas[1]);
-					metodoMagico(cbApellidoPaterno, 70, 83, 20, 20, panelesConsultas[1]);
-					metodoMagico(cbApellidoMaterno, 70, 106, 20, 20, panelesConsultas[1]);
-					metodoMagico(cbEdad, 70, 129, 20, 20, panelesConsultas[1]);
-					metodoMagico(cbSemestre, 70, 159, 20, 20, panelesConsultas[1]);
-					metodoMagico(cbCarrera, 70, 177, 20, 20, panelesConsultas[1]);
-					
-					/*metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panelesConsultas[1]);//Labels
-					metodoMagico(lblNombres, 90, 60, 130, 20, panelesConsultas[1]);
-					metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panelesConsultas[1]);
-					metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panelesConsultas[1]);
-					metodoMagico(lblEdad, 90, 129, 130, 20, panelesConsultas[1]);
-					metodoMagico(lblSemestre, 90, 159, 130, 20, panelesConsultas[1]);
-					metodoMagico(lblCarrera, 90, 177, 130, 20, panelesConsultas[1]);
-					
-					metodoMagico(numControl, 226, 40, 134, 17, panelesConsultas[1]);//Posicionamiento
-					metodoMagico(nombre, 172, 63, 187, 17, panelesConsultas[1]);
-					metodoMagico(primerAp, 216, 86, 144, 17, panelesConsultas[1]);
-					metodoMagico(segundoAp, 216, 109, 144, 17, panelesConsultas[1]);
-					metodoMagico(comboEdad, 216, 137, 40, 16, panelesConsultas[1]);
-					metodoMagico(comboSemestre, 216, 165, 144, 16, panelesConsultas[1]);
-					metodoMagico(comboCarrera, 216, 181, 144, 16, panelesConsultas[1]);
-					
-					metodoMagico(busqueda, 380, 11, 84, 30, panelesConsultas[1]);
-					metodoMagico(borrar, 380, 46, 90, 18, panelesConsultas[1]);
-					metodoMagico(cancelar, 375, 153, 100, 18, panelesConsultas[1]);*/
-				}
-			});
-		menuBar.add(altas);
-		menuBar.add(bajas);
-		menuBar.add(cambios);
-		menuBar.add(consultas);
-		setJMenuBar(menuBar);
-		
-		recordAltas.add(panelesAltas[0]);
-		recordAltas.add(panelesAltas[1]);
-		recordBajas.add(panelesBajas[0]);
-		recordBajas.add(panelesBajas[1]);
-		recordCambios.add(panelesCambios[0]);
-		recordCambios.add(panelesCambios[1]);
-		recordConsultas.add(panelesConsultas[0]);
-		recordConsultas.add(panelesConsultas[1]);
-		
-		dp.add(lista);
-		dp.add(recordAltas);
-		dp.add(recordBajas);
-		dp.add(recordCambios);
-		dp.add(recordConsultas);
-		dp.setBounds(0, 0, 567, 425);
-		add(dp);
-		
 	}
 	
 	public void setCheckboxesSelected(boolean b){
@@ -482,6 +333,151 @@ class Interfaz extends JFrame implements ActionListener{
 		comboEdad.setEnabled(b);
 		comboSemestre.setEnabled(b);
 		comboCarrera.setEnabled(b);
+	}
+	
+	public JPanel[] defPanel(JInternalFrame frame,String encabezado,String titulo,Color color) {
+		frame.getContentPane().setLayout(null);
+		frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		frame.setSize(567,290);
+		frame.setTitle(encabezado);
+		JPanel panelTitulo = new JPanel();//Panel titulo
+		panelTitulo.setLayout(null);
+		panelTitulo.setBackground(color);
+		panelTitulo.setBounds(0, 0, 567, 50);
+		JLabel lblTitulo = new JLabel(titulo);
+		lblTitulo.setFont(new Font("Calibri", Font.BOLD, 20));
+		lblTitulo.setForeground(Color.WHITE);
+		metodoMagico(lblTitulo, 30, 20, 290, 20, panelTitulo);
+		JPanel panel = new JPanel();//Panel
+		panel.setLayout(null);
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(0, 50, 567, 425);
+		JPanel retorno[]=new JPanel[2];
+		retorno[0]=panelTitulo;
+		retorno[1]=panel;
+		return retorno;
+	};
+	public void defPosicionamiento(JPanel panel, boolean busq, boolean interact, String boton) {
+		metodoMagico(lblNumeroDeControl, 90, 37, 130, 20, panel);//Labels
+		metodoMagico(lblNombres, 90, 60, 130, 20, panel);
+		metodoMagico(lblApellidoPaterno, 90, 83, 130, 20, panel);
+		metodoMagico(lblApellidoMaterno, 90, 106, 130, 20, panel);
+		metodoMagico(lblEdad, 90, 129, 130, 20, panel);
+		metodoMagico(lblSemestre, 90, 159, 130, 20, panel);
+		metodoMagico(lblCarrera, 90, 177, 130, 20, panel);
+		
+		metodoMagico(numControl, 226, 40, 134, 17, panel);//Posicionamiento
+		metodoMagico(nombre, 172, 63, 187, 17, panel);
+		metodoMagico(primerAp, 216, 86, 144, 17, panel);
+		metodoMagico(segundoAp, 216, 109, 144, 17, panel);
+		metodoMagico(comboEdad, 216, 137, 40, 16, panel);
+		metodoMagico(comboSemestre, 216, 165, 144, 16, panel);
+		metodoMagico(comboCarrera, 216, 181, 144, 16, panel);
+		
+		metodoMagico(borrar, 380, 46, 90, 18, panel);
+		metodoMagico(cancelar, 375, 153, 100, 18, panel);
+		if (busq) {metodoMagico(busqueda, 380, 11, 84, 30, panel);}
+		if (interact) {
+			interaccion.setText(boton);
+			if (boton.contains("GUARDAR CAMBIOS")) {
+				metodoMagico(interaccion, 380, 105, 160, 18, panel);
+			}else {
+				metodoMagico(interaccion, 380, 105, 90, 18, panel);
+			}
+			
+		}
+	}
+	
+	public void metodoMagico(Component c, int x, int y,int width, int height, JPanel p) {
+		p.add(c);
+		c.setBounds(x, y, width, height);
+	}
+	public void metodoQueRestableceTODO(Component...componentesGraficos) {
+		for (Component c: componentesGraficos) {
+			if (c instanceof JComboBox) {
+				((JComboBox<?>)c).setSelectedIndex(-1);
+			}else if (c instanceof JTextField) {
+				((JTextField)c).setText("");
+			}
+		}
+	}
+	
+	public String generadorConsulta() {
+		AlumnoDAO aDAO = new AlumnoDAO();
+		String sql = "SELECT * FROM Alumnos ";
+		boolean primero=true;
+		
+		if (!numControl.getText().equals("")) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("NumControl='"+numControl.getText()+"'");
+		}
+		if (!nombre.getText().equals("")) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("Nombre='"+nombre.getText()+"'");
+		}
+		if (!primerAp.getText().equals("")) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("PrimerAp='"+primerAp.getText()+"'");
+		}
+		if (!segundoAp.getText().equals("")) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("SegundoAp='"+segundoAp.getText()+"'");
+		}
+		if (comboEdad.getSelectedIndex()!=-1) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("Edad="+comboEdad.getSelectedItem());
+		}
+		if (comboSemestre.getSelectedIndex()!=-1) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("Semestre="+comboSemestre.getSelectedItem());
+		}
+		if (comboCarrera.getSelectedIndex()!=-1) {
+			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
+			primero=false;
+			sql+=("Carrera='"+comboCarrera.getSelectedItem()+"'");
+		}
+		
+		return sql;
+	}
+	public void actualizarTabla(String driver, String url, String sql) {
+		ResultSetTableModel modeloDatos =null;
+		try {
+			modeloDatos = new ResultSetTableModel(driver,url,sql);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+
+		lista.remove(sp);
+		tabla = new JTable(modeloDatos);
+		tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		    	obtenerRegistroTabla();
+		    }
+		});
+		sp = new JScrollPane(tabla);
+		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		sp.setBounds(20,0,525,100);
+		lista.add(sp);
+		lista.setVisible(true);
+	}
+	public void obtenerRegistroTabla() {
+		numControl.setText((String) tabla.getValueAt(tabla.getSelectedRow(),0));
+		nombre.setText((String) tabla.getValueAt(tabla.getSelectedRow(),1));
+		primerAp.setText((String) tabla.getValueAt(tabla.getSelectedRow(),2));
+		segundoAp.setText((String) tabla.getValueAt(tabla.getSelectedRow(),3));
+		comboEdad.setSelectedIndex((int)(tabla.getValueAt(tabla.getSelectedRow(),4))-1);
+		comboSemestre.setSelectedIndex((int)(tabla.getValueAt(tabla.getSelectedRow(),5))-1);
+		comboCarrera.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(),6));
 	}
 	
 	@Override
@@ -567,101 +563,6 @@ class Interfaz extends JFrame implements ActionListener{
 			recordConsultas.setVisible(false);
 		}
 		
-	}
-	
-	public void metodoMagico(Component c, int x, int y,int width, int height, JPanel p) {
-		p.add(c);
-		c.setBounds(x, y, width, height);
-	}
-	
-	public void metodoQueRestableceTODO(Component...componentesGraficos) {
-		for (Component c: componentesGraficos) {
-			if (c instanceof JComboBox) {
-				((JComboBox<?>)c).setSelectedIndex(-1);
-			}else if (c instanceof JTextField) {
-				((JTextField)c).setText("");
-			}
-		}
-	}
-	
-	public void actualizarTabla(String driver, String url, String sql) {
-		ResultSetTableModel modeloDatos =null;
-		try {
-			modeloDatos = new ResultSetTableModel(driver,url,sql);
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-
-		lista.remove(sp);
-		tabla = new JTable(modeloDatos);
-		tabla.addMouseListener(new java.awt.event.MouseAdapter() {
-		    @Override
-		    public void mouseClicked(java.awt.event.MouseEvent evt) {
-		    	obtenerRegistroTabla();
-		    }
-		});
-		sp = new JScrollPane(tabla);
-		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		sp.setBounds(20,0,525,100);
-		lista.add(sp);
-		lista.setVisible(true);
-	}
-	
-	public void obtenerRegistroTabla() {
-		numControl.setText((String) tabla.getValueAt(tabla.getSelectedRow(),0));
-		nombre.setText((String) tabla.getValueAt(tabla.getSelectedRow(),1));
-		primerAp.setText((String) tabla.getValueAt(tabla.getSelectedRow(),2));
-		segundoAp.setText((String) tabla.getValueAt(tabla.getSelectedRow(),3));
-		comboEdad.setSelectedIndex((int)(tabla.getValueAt(tabla.getSelectedRow(),4))-1);
-		comboSemestre.setSelectedIndex((int)(tabla.getValueAt(tabla.getSelectedRow(),5))-1);
-		comboCarrera.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(),6));
-	}
-	
-	public String generadorConsulta() {
-		AlumnoDAO aDAO = new AlumnoDAO();
-		String sql = "SELECT * FROM Alumnos ";
-		boolean primero=true;
-		
-		if (!numControl.getText().equals("")) {
-			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
-			primero=false;
-			sql+=("NumControl='"+numControl.getText()+"'");
-		}
-		if (!nombre.getText().equals("")) {
-			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
-			primero=false;
-			sql+=("Nombre='"+nombre.getText()+"'");
-		}
-		if (!primerAp.getText().equals("")) {
-			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
-			primero=false;
-			sql+=("PrimerAp='"+primerAp.getText()+"'");
-		}
-		if (!segundoAp.getText().equals("")) {
-			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
-			primero=false;
-			sql+=("SegundoAp='"+segundoAp.getText()+"'");
-		}
-		if (comboEdad.getSelectedIndex()!=-1) {
-			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
-			primero=false;
-			sql+=("Edad="+comboEdad.getSelectedItem());
-		}
-		if (comboSemestre.getSelectedIndex()!=-1) {
-			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
-			primero=false;
-			sql+=("Semestre="+comboSemestre.getSelectedItem());
-		}
-		if (comboCarrera.getSelectedIndex()!=-1) {
-			if (!primero) {sql+=" AND ";}else {sql+="WHERE ";}
-			primero=false;
-			sql+=("Carrera='"+comboCarrera.getSelectedItem()+"'");
-		}
-		
-		return sql;
 	}
 	
 }
