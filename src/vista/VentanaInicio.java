@@ -174,6 +174,46 @@ class Interfaz extends JFrame implements ActionListener, ItemListener{
 		comboEdad = new JComboBox<String>();
 		comboSemestre = new JComboBox<String>();
 		comboCarrera = new JComboBox<String>();
+		numControl.addKeyListener(new KeyAdapter() {//validacion
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if (((numControl.getText().length()<9)&&(ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9'))||(numControl.getText().equals("")&&((ke.getKeyChar() >= 'a' && ke.getKeyChar() <= 'z')||(ke.getKeyChar() >= 'A' && ke.getKeyChar() <= 'Z')))||(code==KeyEvent.VK_BACK_SPACE)) {
+					numControl.setEditable(true);
+				}else{
+					numControl.setEditable(false);
+				}
+			}
+		});
+		nombre.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if (((ke.getKeyChar() >= 'a' && ke.getKeyChar() <= 'z')||(ke.getKeyChar() >= 'A' && ke.getKeyChar() <= 'Z'))||(code==KeyEvent.VK_BACK_SPACE)) {
+					nombre.setEditable(true);
+				}else{
+					nombre.setEditable(false);
+				}
+			}
+		});
+		primerAp.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if (((ke.getKeyChar() >= 'a' && ke.getKeyChar() <= 'z')||(ke.getKeyChar() >= 'A' && ke.getKeyChar() <= 'Z'))||(code==KeyEvent.VK_BACK_SPACE)) {
+					primerAp.setEditable(true);
+				}else{
+					primerAp.setEditable(false);
+				}
+			}
+		});
+		segundoAp.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent ke) {
+				int code=ke.getKeyCode();
+				if (((ke.getKeyChar() >= 'a' && ke.getKeyChar() <= 'z')||(ke.getKeyChar() >= 'A' && ke.getKeyChar() <= 'Z'))||(code==KeyEvent.VK_BACK_SPACE)) {
+					segundoAp.setEditable(true);
+				}else{
+					segundoAp.setEditable(false);
+				}
+			}
+		});
 		for (int i = 1; i <= 122; i++) {	comboEdad.addItem(""+i);}//========ComboBoxes
 		for (int i = 1; i <= 10; i++) {		comboSemestre.addItem(""+i);}
 		comboCarrera.addItem("ISC");
