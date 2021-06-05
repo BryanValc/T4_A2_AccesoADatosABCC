@@ -18,7 +18,9 @@ import javax.swing.table.JTableHeader;
 import javax.swing.*;
 
 import controlador.AlumnoDAO;
+import controlador.CompradorDAO;
 import modelo.Alumno;
+import modelo.Comprador;
 
 class Interfaz extends JFrame implements ActionListener, ItemListener{
 	
@@ -29,13 +31,15 @@ class Interfaz extends JFrame implements ActionListener, ItemListener{
 	
 	JLabel lblNumeroDeControl,lblNombres,lblApellidoPaterno,lblApellidoMaterno,lblEdad,lblSemestre,lblCarrera;
 	JComboBox<String> comboEdad, comboCarrera, comboSemestre;
-	JButton interaccion, borrar, cancelar, busqueda;
+	JButton interaccion, borrar, cancelar, busqueda, primero, atras, siguiente, ultimo;
 	JTextField numControl, nombre, primerAp, segundoAp;
+	JTextField numero= new JTextField("1");
 	JCheckBox cbTodos,cbNumeroDeControl,cbNombres,cbApellidoPaterno,cbApellidoMaterno,cbEdad,cbSemestre,cbCarrera;
 	Icon iconoBusqueda = new ImageIcon("./archivos/iconoBusqueda.PNG");//imagen
 	
 	JTable tabla;
 	JScrollPane sp = new JScrollPane();
+	int indice=0;
 	
 	public Interfaz() {
 		getContentPane().setLayout(null);
@@ -139,6 +143,31 @@ class Interfaz extends JFrame implements ActionListener, ItemListener{
 					metodoMagico(cbEdad, 70, 129, 20, 20, panelesConsultas[1]);
 					metodoMagico(cbSemestre, 70, 159, 20, 20, panelesConsultas[1]);
 					metodoMagico(cbCarrera, 70, 177, 20, 20, panelesConsultas[1]);
+					metodoMagico(cbCarrera, 70, 177, 20, 20, panelesConsultas[1]);
+					metodoMagico(primero, 325, 175, 45, 30, panelesConsultas[1]);//ex3
+					metodoMagico(atras, 370, 175, 45, 30, panelesConsultas[1]);
+					metodoMagico(numero, 415, 175, 45, 30, panelesConsultas[1]);
+					metodoMagico(siguiente, 460, 175, 45, 30, panelesConsultas[1]);
+					metodoMagico(ultimo, 505, 175, 45, 30, panelesConsultas[1]);
+					
+					numero.setText("1");
+					cbCarrera.setEnabled(true);
+					cbCarrera.setSelected(true);
+					comboCarrera.setEnabled(true);
+					comboCarrera.setSelectedIndex(0);
+					
+					String sql = generadorConsulta();
+					actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos",sql);
+					
+					numControl.setText((String) tabla.getValueAt(0,0));
+					nombre.setText((String) tabla.getValueAt(0,1));
+					primerAp.setText((String) tabla.getValueAt(0,2));
+					segundoAp.setText((String) tabla.getValueAt(0,3));
+					comboEdad.setSelectedIndex((int)(tabla.getValueAt(0,4))-1);
+					comboSemestre.setSelectedIndex((int)(tabla.getValueAt(0,5))-1);
+					comboCarrera.setSelectedItem(tabla.getValueAt(0,6));
+					
+					
 				}
 			});
 		menuBar.add(altas);
@@ -173,6 +202,7 @@ class Interfaz extends JFrame implements ActionListener, ItemListener{
 		segundoAp = new JTextField();
 		comboEdad = new JComboBox<String>();
 		comboSemestre = new JComboBox<String>();
+		comboSemestre.addItemListener(this);
 		comboCarrera = new JComboBox<String>();
 		numControl.addKeyListener(new KeyAdapter() {//validacion
 			public void keyPressed(KeyEvent ke) {
@@ -253,6 +283,16 @@ class Interfaz extends JFrame implements ActionListener, ItemListener{
 		cbEdad.addItemListener(this);
 		cbSemestre.addItemListener(this);
 		cbCarrera.addItemListener(this);
+		
+		
+		primero= new JButton("|<");
+		primero.addActionListener(this);
+		atras = new JButton("<");
+		atras.addActionListener(this);
+		siguiente = new JButton(">");
+		siguiente.addActionListener(this);
+		ultimo = new JButton(">|");
+		ultimo.addActionListener(this);
 	}
 	
 	public void setCheckboxesSelected(boolean b){
@@ -317,8 +357,8 @@ class Interfaz extends JFrame implements ActionListener, ItemListener{
 		metodoMagico(primerAp, 216, 86, 144, 17, panel);
 		metodoMagico(segundoAp, 216, 109, 144, 17, panel);
 		metodoMagico(comboEdad, 216, 137, 40, 16, panel);
-		metodoMagico(comboSemestre, 216, 165, 144, 16, panel);
-		metodoMagico(comboCarrera, 216, 181, 144, 16, panel);
+		metodoMagico(comboSemestre, 216, 165, 100, 16, panel);
+		metodoMagico(comboCarrera, 216, 181, 100, 16, panel);
 		metodoMagico(borrar, 380, 46, 90, 18, panel);//Interacciones
 		metodoMagico(cancelar, 375, 153, 100, 18, panel);
 		if (busq) {metodoMagico(busqueda, 380, 11, 84, 30, panel);}
@@ -508,6 +548,67 @@ class Interfaz extends JFrame implements ActionListener, ItemListener{
 			recordConsultas.setVisible(false);
 		}
 		
+		if (arg0.getSource()==primero||arg0.getSource()==atras||arg0.getSource()==siguiente||arg0.getSource()==ultimo) {
+			metodoQueRestableceTODO(numControl,nombre,primerAp,segundoAp,comboEdad,comboSemestre);
+			String sql1 = generadorConsulta();
+			actualizarTabla("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/Escuela_Topicos",sql1);
+			if (arg0.getSource()==primero) {
+				indice =0;
+				
+				numControl.setText((String) tabla.getValueAt(indice,0));
+				nombre.setText((String) tabla.getValueAt(indice,1));
+				primerAp.setText((String) tabla.getValueAt(indice,2));
+				segundoAp.setText((String) tabla.getValueAt(indice,3));
+				comboEdad.setSelectedIndex((int)(tabla.getValueAt(indice,4))-1);
+				comboSemestre.setSelectedIndex((int)(tabla.getValueAt(indice,5))-1);
+				comboCarrera.setSelectedItem(tabla.getValueAt(indice,6));
+			}
+			if(arg0.getSource()==atras) {
+				if (indice>0) {
+					indice-=1;
+					numero.setText(Integer.toString(indice));
+				}
+				numControl.setText((String) tabla.getValueAt(indice,0));
+				nombre.setText((String) tabla.getValueAt(indice,1));
+				primerAp.setText((String) tabla.getValueAt(indice,2));
+				segundoAp.setText((String) tabla.getValueAt(indice,3));
+				comboEdad.setSelectedIndex((int)(tabla.getValueAt(indice,4))-1);
+				comboSemestre.setSelectedIndex((int)(tabla.getValueAt(indice,5))-1);
+				comboCarrera.setSelectedItem(tabla.getValueAt(indice,6));
+			}
+			if(arg0.getSource()==siguiente) {
+				String sql = generadorConsulta();
+				AlumnoDAO aDAO = new AlumnoDAO();
+				ArrayList<Alumno> listaAlumnos = aDAO.buscarAlumnos(sql);
+				if (indice<(listaAlumnos.size()-1)) {
+					indice+=1;
+				}
+				numControl.setText((String) tabla.getValueAt(indice,0));
+				nombre.setText((String) tabla.getValueAt(indice,1));
+				primerAp.setText((String) tabla.getValueAt(indice,2));
+				segundoAp.setText((String) tabla.getValueAt(indice,3));
+				comboEdad.setSelectedIndex((int)(tabla.getValueAt(indice,4))-1);
+				comboSemestre.setSelectedIndex((int)(tabla.getValueAt(indice,5))-1);
+				comboCarrera.setSelectedItem(tabla.getValueAt(indice,6));
+			}
+			if (arg0.getSource()==ultimo) {
+				String sql = generadorConsulta();
+				AlumnoDAO aDAO = new AlumnoDAO();
+				ArrayList<Alumno> listaAlumnos = aDAO.buscarAlumnos(sql);
+				System.out.println(listaAlumnos.size());
+				indice = listaAlumnos.size()-1;
+				numero.setText(Integer.toString(indice));
+				numControl.setText((String) tabla.getValueAt(indice,0));
+				nombre.setText((String) tabla.getValueAt(indice,1));
+				primerAp.setText((String) tabla.getValueAt(indice,2));
+				segundoAp.setText((String) tabla.getValueAt(indice,3));
+				comboEdad.setSelectedIndex((int)(tabla.getValueAt(indice,4))-1);
+				comboSemestre.setSelectedIndex((int)(tabla.getValueAt(indice,5))-1);
+				comboCarrera.setSelectedItem(tabla.getValueAt(indice,6));
+			}
+			numero.setText(Integer.toString(indice+1));
+		}
+		
 	}
 
 	@Override
@@ -585,3 +686,171 @@ public class VentanaInicio {
 	}
 
 }
+/*
+if (src==interacciones[0][0]) {
+==================================================================================
+==================================================================================
+			CompradorDAO compradorDAO = new CompradorDAO();
+			switch (interacciones[0][0].getText()) {
+			case "Agregar":
+				int lleno=1;
+				for(JTextField i:jtfsComprador) {
+					if (i.getText().equals("")) {
+						lleno*=0;
+					}
+				};
+				if(!validate(jtfsComprador[7].getText())) {
+					JOptionPane.showMessageDialog(null,"Email no válido");
+				}else if (lleno==1) {
+					Comprador comprador = new Comprador(Integer.parseInt(jtfsComprador[0].getText()),
+							jtfsComprador[1].getText(),
+							jtfsComprador[2].getText(),
+							jtfsComprador[3].getText(),
+							jtfsComprador[4].getText(),
+							jtfsComprador[5].getText(),
+							jtfsComprador[6].getText(),
+							jtfsComprador[7].getText());
+					if (compradorDAO.insertarRegistro(comprador)) {
+						JOptionPane.showMessageDialog(null,"Comprador agregado exitosamente");
+					}else {
+					JOptionPane.showMessageDialog(null,"No se pudo agregar el comprador, quizá ya hay uno con el mismo ID");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null,"Falta uno o más datos para añadir un comprador");
+				}
+				break;
+			case "Eliminar":
+				if (jtfsComprador[0].getText().equals("")) {
+					JOptionPane.showMessageDialog(null,"No se está especificando el ID del comprador a eliminar");
+				}else {
+					if (compradorDAO.eliminarRegistro(Integer.parseInt(jtfsComprador[0].getText()))) {
+						JOptionPane.showMessageDialog(null,"Comprador eliminado exitosamente");
+					}else {
+						JOptionPane.showMessageDialog(null,"No se pudo eliminar el comprador, quizá el mismo es llamado en otro tipo de registro ");
+					}
+				}
+				break;
+			case "Modificar":
+				int vacio =0;
+				boolean flags[]= new boolean[7];
+				for (int i = 0; i < flags.length; i++) {
+					flags[i]=!jtfsComprador[i+1].getText().equals("");
+					if (flags[i]) {
+						vacio+=1;
+					}
+				}
+				if (jtfsComprador[0].getText().equals("")) {
+					JOptionPane.showMessageDialog(null,"No se está especificando el ID del comprador");
+				}else if(flags[6]&&!validate(jtfsComprador[7].getText())) {
+					JOptionPane.showMessageDialog(null,"Email no válido");
+				}else if(vacio==0){
+					JOptionPane.showMessageDialog(null,"No se está ingresando nada aparte del ID");
+				}else{
+					Comprador comprador = new Comprador(Integer.parseInt(jtfsComprador[0].getText()),
+							jtfsComprador[1].getText(),
+							jtfsComprador[2].getText(),
+							jtfsComprador[3].getText(),
+							jtfsComprador[4].getText(),
+							jtfsComprador[5].getText(),
+							jtfsComprador[6].getText(),
+							jtfsComprador[7].getText());
+					if (compradorDAO.modificarRegistro(comprador,flags)) {
+						JOptionPane.showMessageDialog(null,"Comprador modificado exitosamente");
+					}else{
+						JOptionPane.showMessageDialog(null,"No se pudo modificar el comprador, quizá el mismo es llamado en otro tipo de registro");
+					}
+				}
+				break;
+			default:break;
+			}
+			actualizarTablaComprador("SELECT * FROM Comprador");
+			=====================================================================
+		}else if(src==interacciones[0][1]) {
+			metodoQueRestableceTODO(jtfsComprador);
+		}else if(src==interacciones[0][2]) {
+			frameComprador.setVisible(false);
+			panelComprador.setVisible(false);
+		}else if(src==interacciones[0][3]) {
+			String sql = consultaComprador();
+			actualizarTablaComprador(sql);
+		}
+*/
+
+/*
+CompradorDAO compradorDAO = new CompradorDAO();
+Comprador comprador = new Comprador(1212, "Bryan", "1x1E1SA123123", "Arq Damaso", "Jerez", "Zacatecas", "494-118-9287", "bryan.valdez117@outlook.es");
+compradorDAO.insertarRegistro(comprador);
+compradorDAO.eliminarRegistro(1212);
+Comprador comprador2 = new Comprador(1212, "Juan", "1x1E1SA123123", "Arq Damaso", "Zacatecas", "Zacatecas", "494-118-9287", "bryan.valdez117@outlook.es");
+boolean flags[]=new boolean[7];
+flags[0]=true;
+compradorDAO.modificarRegistro(comprador2, flags);
+ArrayList<Comprador> compradores = compradorDAO.buscarCompradores("SELECT * FROM Comprador WHERE nombre = 'Bryan'");
+System.out.println(compradores);
+*/
+
+/*
+ContratistaDAO contratistaDAO = new ContratistaDAO();
+Contratista contratista = new Contratista(2121, "Bryan",1177);
+contratistaDAO.insertarRegistro(contratista);
+contratistaDAO.eliminarRegistro(2121);
+Contratista contratista2 = new Contratista(2121, "Leo",11);
+boolean flags[]=new boolean[2];
+flags[0]=true;
+contratistaDAO.modificarRegistro(contratista2, flags);
+ArrayList<Contratista> contratistas = contratistaDAO.buscarContratistas("SELECT * FROM Contratista WHERE nombreContratista = 'Leo'");
+System.out.println(contratistas);
+*/
+
+/*
+CriptomonedaDAO criptomonedaDAO = new CriptomonedaDAO();
+Criptomoneda criptomoneda = new Criptomoneda("SUSHI",16.36,"defi Token");
+criptomonedaDAO.insertarRegistro(criptomoneda);
+criptomonedaDAO.eliminarRegistro("SUSHI");
+boolean flags[]=new boolean[2];
+flags[0]=true;
+criptomoneda.setPrecioUnidad(17);
+criptomonedaDAO.modificarRegistro(criptomoneda, flags);
+ArrayList<Criptomoneda> criptomonedas = criptomonedaDAO.buscarCriptomonedas("SELECT * FROM Criptomoneda WHERE precioUnidad = 17");
+System.out.println(criptomonedas);
+*/
+
+/*
+OrdenDAO ordenDAO = new OrdenDAO();
+Orden orden = new Orden(9000000000000L,"08-May-2021",1212,5);
+ordenDAO.insertarRegistro(orden);
+ordenDAO.eliminarRegistro(9000000000000L);
+orden.setFechaOrden("08-Jun-2021");
+boolean flags[]=new boolean[3];
+flags[0]=true;
+ordenDAO.modificarRegistro(orden, flags);
+ArrayList<Orden> ordenes = ordenDAO.buscarOrdenes("SELECT * FROM Orden WHERE fechaOrden = '08-Jun-2021'");
+System.out.println(ordenes);
+*/
+
+/*
+PoolDAO poolDAO = new PoolDAO();
+Pool pool = new Pool("F2P", 70000000L, 32000, 16000);
+poolDAO.insertarRegistro(pool);
+poolDAO.eliminarRegistro("F2P");
+pool.setPotenciaDeMinadoMHs(160000000L);
+pool.setCantidadDeMineros(32000);
+boolean flags[]=new boolean[3];
+flags[0]=true;
+poolDAO.modificarRegistro(pool, flags);
+ArrayList<Pool> pools = poolDAO.buscarPools("SELECT * FROM Pool WHERE poolId = 'F2P'");
+System.out.println(pools);
+*/
+
+/*
+OrdenDePotencia odp = new OrdenDePotencia(12345678910111213L, 9000000000000L, "SUSHI", 2121, "F2P", 5, 80);
+OrdenDePotenciaDAO odpDAO = new OrdenDePotenciaDAO();
+odpDAO.insertarRegistro(odp);	
+odpDAO.eliminarRegistro(12345678910111213L);
+odp.setPrecioFiat(160);
+boolean flags[]=new boolean[6];
+flags[5]=true;
+odpDAO.modificarRegistro(odp, flags);
+ArrayList<OrdenDePotencia> ordenesDePotencia = odpDAO.buscarOrdenesDePotencia("SELECT * FROM OrdenDePotencia WHERE compraId = 12345678910111213");
+System.out.println(ordenesDePotencia);
+*/
